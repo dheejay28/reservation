@@ -3,124 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reserve Room</title>
+    <title>Add Room</title>
     <link rel="stylesheet" href="styles.css">
-    <style>
-        .dropdown {
-            width: 100%;
-            margin-bottom: 10px;
-        }
-        .dropdown-toggle {
-            width: 100%;
-            padding: 10px;
-            background-color: #f2f2f2;
-            border: 1px solid #ccc;
-            cursor: pointer;
-            text-align: left;
-        }
-        .dropdown-list {
-            display: none;
-            background-color: white;
-            border: 1px solid #ccc;
-            max-height: 150px;
-            overflow-y: auto;
-        }
-        .dropdown-list li {
-            padding: 10px;
-            cursor: pointer;
-        }
-        .dropdown-list li:hover {
-            background-color: #ddd;
-        }
-    </style>
 </head>
 <body>
     <div class="container">
-        <h1>Reserve Room</h1>
-        <div id="message" class="message"></div>
-
-        <!-- Dropdown list to select a room -->
-        <div class="dropdown">
-            <div class="dropdown-toggle" onclick="toggleDropdown()">Select Room</div>
-            <ul id="room-list" class="dropdown-list">
-                <!-- Rooms will be populated here -->
-            </ul>
-        </div>
-        <input type="hidden" id="selected-room" required> <!-- Hidden field for storing selected room -->
-
-        <label for="start-time">Start Time:</label>
-        <input type="time" id="start-time" required>
-
-        <label for="end-time">End Time:</label>
-        <input type="time" id="end-time" required>
-
-        <button onclick="reserveRoom()">Reserve</button>
+        <h1>Add Room</h1>
+        <input type="text" id="new-room-number" placeholder="New Room Number" required>
+        <button onclick="addRoom()">Add Room</button>
+        <p id="add-room-message" class="hidden"></p>
         <button onclick="location.href='index.html'">Back</button>
     </div>
 
     <script>
-        // Toggle dropdown visibility
-        function toggleDropdown() {
-            const roomList = document.getElementById('room-list');
-            roomList.style.display = roomList.style.display === 'block' ? 'none' : 'block';
-        }
-
-        // Populate rooms in the dropdown
-        function populateRooms() {
-            const roomList = document.getElementById('room-list');
-            const rooms = JSON.parse(localStorage.getItem('rooms')) || [];
-
-            roomList.innerHTML = ''; // Clear the list
-            rooms.forEach(room => {
-                const li = document.createElement('li');
-                li.textContent = room.name;
-                li.onclick = function() {
-                    document.querySelector('.dropdown-toggle').textContent = room.name;
-                    document.getElementById('selected-room').value = room.name; // Store selected room
-                    roomList.style.display = 'none'; // Hide the dropdown after selection
-                };
-                roomList.appendChild(li);
-            });
-        }
-
-        // Function to reserve a room
-        function reserveRoom() {
-            const roomName = document.getElementById('selected-room').value;
-            const startTime = document.getElementById('start-time').value;
-            const endTime = document.getElementById('end-time').value;
-            const messageElement = document.getElementById('message');
-
-            if (!roomName || !startTime || !endTime) {
-                messageElement.textContent = 'Please fill in all fields.';
-                return;
-            }
-
-            let reservedRooms = JSON.parse(localStorage.getItem('reservedRooms')) || [];
-
-            // Check if the room is already reserved for the selected time
-            const isConflict = reservedRooms.some(room => 
-                room.name === roomName && 
-                ((startTime >= room.startTime && startTime < room.endTime) || 
-                 (endTime > room.startTime && endTime <= room.endTime) ||
-                 (startTime <= room.startTime && endTime >= room.endTime))
-            );
-
-            if (isConflict) {
-                messageElement.textContent = `Room "${roomName}" is already reserved during that time.`;
-            } else {
-                const reservationCode = Math.random().toString(36).substr(2, 9).toUpperCase(); // Generate a random code
-                reservedRooms.push({
-                    name: roomName,
-                    startTime: startTime,
-                    endTime: endTime,
-                    reservationCode: reservationCode
-                });
-                localStorage.setItem('reservedRooms', JSON.stringify(reservedRooms));
-                messageElement.textContent = `Room reserved successfully! Your reservation code is: ${reservationCode}`;
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', populateRooms);
-    </script>
-</body>
-</html>
+        function addRoom() {
+            const newRoomNumber = document.getElementById('new-room-number').value
