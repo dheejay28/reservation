@@ -19,32 +19,40 @@
     </div>
 
     <script>
-        // Add room function
+        // Function to add a room
         function addRoom() {
             const roomName = document.getElementById('room-name').value.trim();
             const messageElement = document.getElementById('message');
 
+            // Validation: check if the room name is not empty
             if (!roomName) {
                 messageElement.textContent = 'Please enter a room name.';
+                messageElement.style.color = 'red';
                 return;
             }
 
+            // Get the existing rooms from localStorage or initialize an empty array if none exist
             let rooms = JSON.parse(localStorage.getItem('rooms')) || [];
 
-            // Check if the room already exists
+            // Check if the room already exists in the system (case-insensitive)
             const isDuplicate = rooms.some(room => room.name.toLowerCase() === roomName.toLowerCase());
+
             if (isDuplicate) {
                 messageElement.textContent = `Room "${roomName}" already exists in the system.`;
+                messageElement.style.color = 'red';
             } else {
-                // Add the room to the list
+                // Add the room to the list if it doesn't already exist
                 rooms.push({ name: roomName });
                 localStorage.setItem('rooms', JSON.stringify(rooms));
                 messageElement.textContent = `Room "${roomName}" added successfully!`;
-                document.getElementById('room-name').value = ''; // Clear the input field
+                messageElement.style.color = 'green';
+
+                // Clear the input field
+                document.getElementById('room-name').value = '';
             }
         }
 
-        // Add event listener to the button
+        // Attach the addRoom function to the button click event
         document.getElementById('add-room-button').addEventListener('click', addRoom);
     </script>
 </body>
