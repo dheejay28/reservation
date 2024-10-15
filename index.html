@@ -8,49 +8,44 @@
 </head>
 <body>
     <div class="container">
-        <!-- Logo and Date -->
         <img src="logo.png" alt="Logo" class="logo"> <!-- Replace with your logo image -->
         <h1>Room Reservation System</h1>
         <p id="current-date-time"></p>
 
-        <!-- Buttons for users -->
-        <button onclick="location.href='reserve.html'">Reserve Room</button>
-        <button onclick="location.href='return-room.html'">Return Room</button>
-        <button onclick="location.href='reservations.html'">View Reserved Rooms</button>
-
-        <!-- Admin login and logout buttons -->
-        <button id="login-btn" onclick="location.href='login.html'">Login</button>
-        <button id="logout-btn" class="hidden" onclick="logout()">Logout</button>
-
-        <!-- Add Room button (only shown for admin) -->
-        <button id="add-room-btn" class="hidden" onclick="location.href='add-room.html'">Add Room</button>
+        <button onclick="window.location.href='reserve-room.html'">Reserve Room</button>
+        <button onclick="window.location.href='return-room.html'">Return Room</button>
+        <button onclick="window.location.href='reserved-rooms.html'">Reserved Rooms</button>
+        <button id="admin-button" class="hidden" onclick="window.location.href='add-room.html'">Add Room</button>
+        <button id="remove-reservation-button" class="hidden" onclick="window.location.href='remove-reservation.html'">Remove Reservation</button>
+        <button id="login-button" onclick="toggleLogin()">Log In</button>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Display current date and time
             const now = new Date();
             document.getElementById('current-date-time').textContent = now.toLocaleString();
 
-            // Check if the admin is logged in
             const isAdmin = localStorage.getItem('isAdmin') === 'true';
-
-            // Show/Hide buttons based on admin status
-            if (isAdmin) {
-                document.getElementById('login-btn').classList.add('hidden');
-                document.getElementById('logout-btn').classList.remove('hidden');
-                document.getElementById('add-room-btn').classList.remove('hidden');
-            } else {
-                document.getElementById('login-btn').classList.remove('hidden');
-                document.getElementById('logout-btn').classList.add('hidden');
-                document.getElementById('add-room-btn').classList.add('hidden');
-            }
+            document.getElementById('admin-button').classList.toggle('hidden', !isAdmin);
+            document.getElementById('remove-reservation-button').classList.toggle('hidden', !isAdmin);
+            document.getElementById('login-button').textContent = isAdmin ? 'Log Out' : 'Log In';
         });
 
-        // Logout function
-        function logout() {
-            localStorage.removeItem('isAdmin'); // Remove the admin flag
-            window.location.reload(); // Reload the page to update buttons
+        function toggleLogin() {
+            const isAdmin = localStorage.getItem('isAdmin') === 'true';
+            if (isAdmin) {
+                localStorage.removeItem('isAdmin');
+                window.location.reload();
+            } else {
+                const username = prompt("Enter admin username:");
+                const password = prompt("Enter admin password:");
+                if (username === 'iamtheadmin' && password === 'Dj*0100010001001010') {
+                    localStorage.setItem('isAdmin', 'true');
+                    window.location.reload();
+                } else {
+                    alert('Invalid username or password.');
+                }
+            }
         }
     </script>
 </body>
