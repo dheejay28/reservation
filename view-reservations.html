@@ -20,15 +20,24 @@
 
             const reservedRooms = JSON.parse(localStorage.getItem('reservedRooms')) || [];
 
-            reservedRooms.forEach(room => {
+            reservedRooms.forEach((room, index) => {
                 const roomDiv = document.createElement('div');
                 roomDiv.className = 'reserved-room';
                 roomDiv.innerHTML = `
                     <h3>Room Number: ${room.number}</h3>
                     <p>Reserved From: ${room.startTime} To: ${room.endTime}</p>
+                    <p>Reservation Code: ${room.code}</p>
+                    <button onclick="returnRoom(${index})">Return Room</button>
                 `;
                 reservedRoomsContainer.appendChild(roomDiv);
             });
+        }
+
+        function returnRoom(index) {
+            const reservedRooms = JSON.parse(localStorage.getItem('reservedRooms')) || [];
+            reservedRooms.splice(index, 1); // Remove the room at the given index
+            localStorage.setItem('reservedRooms', JSON.stringify(reservedRooms));
+            displayReservedRooms(); // Refresh the displayed list of reserved rooms
         }
 
         document.addEventListener('DOMContentLoaded', displayReservedRooms);
