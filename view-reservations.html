@@ -27,18 +27,27 @@
                 roomDiv.innerHTML = `
                     <h3>Room Number: ${room.number}</h3>
                     <p>Reserved From: ${room.startTime} To: ${room.endTime}</p>
-                    ${isAdmin ? `<p>Reservation Code: ${room.code}</p>` : ''}
-                    <button onclick="returnRoom(${index})">Return Room</button>
                 `;
+                
+                // Admin functionality to remove the room
+                if (isAdmin) {
+                    const removeButton = document.createElement('button');
+                    removeButton.innerText = 'Remove Room';
+                    removeButton.onclick = function() {
+                        removeRoom(index);
+                    };
+                    roomDiv.appendChild(removeButton);
+                }
+
                 reservedRoomsContainer.appendChild(roomDiv);
             });
         }
 
-        function returnRoom(index) {
+        function removeRoom(index) {
             const reservedRooms = JSON.parse(localStorage.getItem('reservedRooms')) || [];
-            reservedRooms.splice(index, 1); // Remove the room at the given index
-            localStorage.setItem('reservedRooms', JSON.stringify(reservedRooms));
-            displayReservedRooms(); // Refresh the displayed list of reserved rooms
+            reservedRooms.splice(index, 1); // Remove the room at the specified index
+            localStorage.setItem('reservedRooms', JSON.stringify(reservedRooms)); // Update the local storage
+            displayReservedRooms(); // Refresh the displayed list
         }
 
         document.addEventListener('DOMContentLoaded', displayReservedRooms);
