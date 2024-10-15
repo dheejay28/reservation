@@ -19,6 +19,7 @@
             reservedRoomsContainer.innerHTML = '';
 
             const reservedRooms = JSON.parse(localStorage.getItem('reservedRooms')) || [];
+            const isAdmin = localStorage.getItem('isAdmin') === 'true'; // Check if admin is logged in
 
             reservedRooms.forEach((room, index) => {
                 const roomDiv = document.createElement('div');
@@ -26,7 +27,7 @@
                 roomDiv.innerHTML = `
                     <h3>Room Number: ${room.number}</h3>
                     <p>Reserved From: ${room.startTime} To: ${room.endTime}</p>
-                    <p>Reservation Code: ${room.code}</p>
+                    ${isAdmin ? `<p>Reservation Code: ${room.code}</p>` : ''}
                     <button onclick="returnRoom(${index})">Return Room</button>
                 `;
                 reservedRoomsContainer.appendChild(roomDiv);
