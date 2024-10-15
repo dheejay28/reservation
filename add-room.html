@@ -5,19 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Room</title>
     <link rel="stylesheet" href="styles.css">
-    <style>
-        .message {
-            color: red;
-            margin-bottom: 10px;
-        }
-    </style>
 </head>
 <body>
     <div class="container">
         <h1>Add Room</h1>
         <div id="message" class="message"></div>
+
         <label for="room-name">Room Name:</label>
         <input type="text" id="room-name" required>
+
         <button onclick="addRoom()">Add Room</button>
         <button onclick="location.href='index.html'">Back</button>
     </div>
@@ -27,22 +23,23 @@
             const roomName = document.getElementById('room-name').value.trim();
             const messageElement = document.getElementById('message');
 
-            if (roomName === '') {
+            if (!roomName) {
                 messageElement.textContent = 'Please enter a room name.';
                 return;
             }
 
             let rooms = JSON.parse(localStorage.getItem('rooms')) || [];
 
-            // Check if the room name already exists
-            const roomExists = rooms.some(room => room.name.toLowerCase() === roomName.toLowerCase());
-
-            if (roomExists) {
-                messageElement.textContent = `The room "${roomName}" is already in the system.`;
+            // Check if the room already exists
+            const isDuplicate = rooms.some(room => room.name.toLowerCase() === roomName.toLowerCase());
+            if (isDuplicate) {
+                messageElement.textContent = `Room "${roomName}" already exists in the system.`;
             } else {
+                // Add the room to the list
                 rooms.push({ name: roomName });
                 localStorage.setItem('rooms', JSON.stringify(rooms));
-                messageElement.textContent = `Room "${roomName}" has been added successfully.`;
+                messageElement.textContent = `Room "${roomName}" added successfully!`;
+                document.getElementById('room-name').value = ''; // Clear the input field
             }
         }
     </script>
