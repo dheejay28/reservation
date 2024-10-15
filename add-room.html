@@ -35,8 +35,13 @@
             }
 
             if (newRoom) {
-                // Logic to add room (this can be more complex depending on your needs)
-                // For simplicity, we just show a success message
+                // Get existing rooms from local storage
+                const existingRooms = JSON.parse(localStorage.getItem('rooms')) || [];
+                if (!existingRooms.includes(newRoom)) {
+                    existingRooms.push(newRoom);
+                    localStorage.setItem('rooms', JSON.stringify(existingRooms));
+                }
+                
                 document.getElementById('add-room-message').textContent = `Room '${newRoom}' added successfully.`;
                 document.getElementById('add-room-message').classList.remove('hidden');
                 document.getElementById('new-room').value = ''; // Clear the input
