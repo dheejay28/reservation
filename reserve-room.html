@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reserve Room</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <img src="logo.png" alt="Logo" class="logo"> <!-- Replace with your logo image -->
+        <h1>Reserve a Room</h1>
+        <p id="current-date-time"></p>
+
+        <select id="room-select">
+            <option value="">Select Room</option>
+            <option value="Room 101">Room 101</option>
+            <option value="Room 102">Room 102</option>
+            <option value="Room 103">Room 103</option>
+            <!-- Add more rooms as needed -->
+        </select>
+        <input type="time" id="start-time" required>
+        <input type="time" id="end-time" required>
+        <button onclick="reserveRoom()">Reserve Room</button>
+        <p id="reservation-message" class="hidden"></p>
+
+        <button onclick="goHome()">Go Back</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const now = new Date();
+            document.getElementById('current-date-time').textContent = now.toLocaleString();
+        });
+
+        function reserveRoom() {
+            const roomSelect = document.getElementById('room-select');
+            const room = roomSelect.value;
+            const startTime = document.getElementById('start-time').value;
+            const endTime = document.getElementById('end-time').value;
+
+            if (!room || !startTime || !endTime) {
+                alert('Please fill in all fields.');
+                return;
+            }
+
+            const reservations = JSON.parse(localStorage.getItem('reservations')) || [];
+            const overlapping = reservations.some(reservation => 
+                reservation.room === room && 
+                ((startTime >= reservation.startTime && startTime < reservation.endTime) || 
+                (endTime > reservation.startTime && endTime <= reservation.endTime))
+            );
+
+            if (overlapping) {
+                alert('This room is already reserved for the selected time.');
+                return;
+            }
+
+            const reservationCode = Math.floor(Math.random() * 1000000); // Generate a random reservation code
+            reservations.push({ room, startTime, endTime, reservationCode });
+            localStorage.setItem('reservations', JSON.stringify(reservations));
+
+            document.getElementById('reservation-message').textContent = `Reservation successful! Your code is: ${reservationCode}`;
+            document.getElementById('reservation-message').classList.remove('hidden');
+        }
+
+        function goHome() {
+            window.location.href = 'index.html'; // Change this to your homepage if it's named differently
+        }
+    </script>
+</body>
+</html>
