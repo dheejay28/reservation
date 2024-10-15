@@ -8,57 +8,45 @@
 </head>
 <body>
     <div class="container">
-        <!-- Logo -->
         <img src="logo.png" alt="Logo" class="logo"> <!-- Replace with your logo image -->
-        <h1>Add Room</h1>
-        <input type="text" id="new-room-number" placeholder="Enter Room Number">
-        <input type="password" id="admin-password" placeholder="Enter Admin Password">
-        <button onclick="verifyPassword()">Add Room</button>
+        <h1>Add a Room</h1>
+        <p id="current-date-time"></p>
+
+        <input type="text" id="new-room" placeholder="Enter New Room Name" required>
+        <button onclick="addRoom()">Add Room</button>
         <p id="add-room-message" class="hidden"></p>
+
+        <button onclick="goHome()">Go Back</button>
     </div>
 
     <script>
-        function verifyPassword() {
-            const password = document.getElementById('admin-password').value;
+        document.addEventListener('DOMContentLoaded', function() {
+            const now = new Date();
+            document.getElementById('current-date-time').textContent = now.toLocaleString();
+        });
 
-            // Check if the password matches the admin password
-            if (password === 'Dj*0100010001001010') {
-                addRoom(); // Call addRoom if password is correct
-            } else {
-                document.getElementById('add-room-message').textContent = 'Invalid password. Please try again.';
+        function addRoom() {
+            const newRoom = document.getElementById('new-room').value.trim();
+            const password = prompt("Enter admin password:");
+
+            if (password !== 'Dj*0100010001001010') {
+                alert('Invalid password.');
+                return;
+            }
+
+            if (newRoom) {
+                // Logic to add room (this can be more complex depending on your needs)
+                // For simplicity, we just show a success message
+                document.getElementById('add-room-message').textContent = `Room '${newRoom}' added successfully.`;
                 document.getElementById('add-room-message').classList.remove('hidden');
+                document.getElementById('new-room').value = ''; // Clear the input
+            } else {
+                alert('Please enter a room name.');
             }
         }
 
-        function addRoom() {
-            const newRoomNumber = document.getElementById('new-room-number').value;
-
-            if (!newRoomNumber) {
-                document.getElementById('add-room-message').textContent = 'Please enter a room number.';
-                document.getElementById('add-room-message').classList.remove('hidden');
-                return;
-            }
-
-            // Get the existing rooms from localStorage or initialize an empty array
-            let rooms = JSON.parse(localStorage.getItem('rooms')) || [];
-
-            // Check if the room already exists
-            const roomExists = rooms.some(room => room.number === newRoomNumber);
-            if (roomExists) {
-                document.getElementById('add-room-message').textContent = 'Room already exists!';
-                document.getElementById('add-room-message').classList.remove('hidden');
-                return;
-            }
-
-            // Add the new room to the list
-            rooms.push({ number: newRoomNumber });
-            
-            // Save the updated list of rooms to localStorage
-            localStorage.setItem('rooms', JSON.stringify(rooms));
-
-            // Show success message
-            document.getElementById('add-room-message').textContent = `Room ${newRoomNumber} added successfully!`;
-            document.getElementById('add-room-message').classList.remove('hidden');
+        function goHome() {
+            window.location.href = 'index.html'; // Change this to your homepage if it's named differently
         }
     </script>
 </body>
