@@ -8,71 +8,47 @@
 </head>
 <body>
     <div class="container">
+        <img src="logo.png" alt="Logo" class="logo"> <!-- Replace with your logo image -->
         <h1>Room Reservation System</h1>
-        <div id="user-options">
-            <button onclick="location.href='reserve.html'">Reserve Room</button>
-            <button onclick="location.href='return-room.html'">Return Room</button>
-            <button onclick="location.href='view-reservations.html'">View Reserved Rooms</button>
-            <button onclick="toggleAdminLogin()" id="admin-login-btn">Log In</button>
+        <p id="current-date-time"></p>
+
+        <div class="button-container">
+            <button onclick="window.location.href='reserve.html'">Reserve Room</button>
+            <button onclick="window.location.href='view-reservations.html'">View Reservations</button>
+            <button onclick="window.location.href='return-room.html'">Return Room</button>
+            <button id="logout-button" class="hidden" onclick="logout()">Log Out</button>
+            <button id="add-room-button" class="hidden" onclick="window.location.href='add-room.html'">Add Room</button>
         </div>
-        
-        <div id="admin-options" class="hidden">
-            <button onclick="location.href='add-room.html'">Add Room</button>
-            <button onclick="logoutAdmin()" id="logout-btn">Log Out</button>
-        </div>
-        
-        <div id="login-form" class="hidden">
-            <h2>Admin Login</h2>
-            <input type="text" id="admin-username" placeholder="Username" required>
-            <input type="password" id="admin-password" placeholder="Password" required>
-            <button onclick="login()">Login</button>
-            <p id="login-message" class="hidden"></p>
-        </div>
+
+        <p id="message" class="hidden"></p>
     </div>
 
     <script>
-        function toggleAdminLogin() {
-            const loginForm = document.getElementById('login-form');
-            loginForm.classList.toggle('hidden');
-        }
-
-        function login() {
-            const username = document.getElementById('admin-username').value;
-            const password = document.getElementById('admin-password').value;
-
-            // Validate the admin credentials
-            if (username === 'iamtheadmin' && password === 'Dj*0100010001001010') {
-                localStorage.setItem('isAdmin', 'true');
-                toggleAdminOptions(true);
-                toggleAdminLogin();
-            } else {
-                document.getElementById('login-message').textContent = 'Invalid username or password.';
-                document.getElementById('login-message').classList.remove('hidden');
-            }
-        }
-
-        function logoutAdmin() {
-            localStorage.removeItem('isAdmin'); // Remove admin status from local storage
-            toggleAdminOptions(false);
-            alert("You have successfully logged out."); // Notify the user
-        }
-
-        function toggleAdminOptions(show) {
-            const adminOptions = document.getElementById('admin-options');
-            const adminLoginBtn = document.getElementById('admin-login-btn');
-            if (show) {
-                adminOptions.classList.remove('hidden');
-                adminLoginBtn.classList.add('hidden');
-            } else {
-                adminOptions.classList.add('hidden');
-                adminLoginBtn.classList.remove('hidden');
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', function () {
-            const isAdmin = localStorage.getItem('isAdmin') === 'true';
-            toggleAdminOptions(isAdmin);
+        document.addEventListener('DOMContentLoaded', function() {
+            const now = new Date();
+            document.getElementById('current-date-time').textContent = now.toLocaleString();
+            checkAdminStatus();
         });
+
+        function checkAdminStatus() {
+            const isAdmin = localStorage.getItem('isAdmin');
+            if (isAdmin) {
+                // Show the logout button and the add room button
+                document.getElementById('logout-button').classList.remove('hidden');
+                document.getElementById('add-room-button').classList.remove('hidden');
+            } else {
+                // Hide the logout button and the add room button
+                document.getElementById('logout-button').classList.add('hidden');
+                document.getElementById('add-room-button').classList.add('hidden');
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('isAdmin'); // Remove admin status from local storage
+            checkAdminStatus(); // Update the UI
+            alert("You have successfully logged out."); // Notify the user
+            window.location.href = 'index.html'; // Redirect to the homepage after logout
+        }
     </script>
 </body>
 </html>
