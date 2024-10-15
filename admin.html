@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <img src="logo.png" alt="Logo" class="logo"> <!-- Replace with your logo image -->
+        <h1>Admin Dashboard</h1>
+        <p id="current-date-time"></p>
+
+        <button onclick="window.location.href='reserve.html'">Room Reservation</button>
+        <button onclick="window.location.href='view-reservations.html'">View Reservations</button>
+        <button onclick="window.location.href='return-room.html'">Return Room</button>
+        <button onclick="window.location.href='add-room.html'">Add Room</button>
+        <button onclick="logout()">Log Out</button>
+
+        <p id="message" class="hidden"></p>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const now = new Date();
+            document.getElementById('current-date-time').textContent = now.toLocaleString();
+            checkAdminStatus();
+        });
+
+        function checkAdminStatus() {
+            const isAdmin = localStorage.getItem('isAdmin');
+            if (!isAdmin) {
+                // Redirect to login if not logged in
+                window.location.href = 'login.html';
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('isAdmin'); // Remove admin status from local storage
+            window.location.href = 'login.html'; // Redirect to login page
+        }
+    </script>
+</body>
+</html>
