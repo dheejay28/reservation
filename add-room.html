@@ -57,3 +57,239 @@
     </script>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Room</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Add Room</h1>
+        <div id="message" class="message"></div>
+
+        <label for="room-name">Room Name:</label>
+        <input type="text" id="room-name" required>
+
+        <button id="add-room-button">Add Room</button>
+        <button onclick="location.href='index.html'">Back</button>
+    </div>
+
+    <script>
+        // Function to add a room
+        function addRoom() {
+            const roomName = document.getElementById('room-name').value.trim();
+            const messageElement = document.getElementById('message');
+
+            // Validation: check if the room name is not empty
+            if (!roomName) {
+                messageElement.textContent = 'Please enter a room name.';
+                messageElement.style.color = 'red';
+                return;
+            }
+
+            // Get the existing rooms from localStorage or initialize an empty array if none exist
+            let rooms = JSON.parse(localStorage.getItem('rooms')) || [];
+
+            // Check if the room already exists in the system (case-insensitive)
+            const isDuplicate = rooms.some(room => room.name.toLowerCase() === roomName.toLowerCase());
+
+            if (isDuplicate) {
+                messageElement.textContent = `Room "${roomName}" already exists in the system.`;
+                messageElement.style.color = 'red';
+            } else {
+                // Add the room to the list if it doesn't already exist
+                rooms.push({ name: roomName });
+                localStorage.setItem('rooms', JSON.stringify(rooms));
+                messageElement.textContent = `Room "${roomName}" added successfully!`;
+                messageElement.style.color = 'green';
+
+                // Clear the input field
+                document.getElementById('room-name').value = '';
+            }
+        }
+
+        // Attach the addRoom function to the button click event
+        document.getElementById('add-room-button').addEventListener('click', addRoom);
+    </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Room</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Add Room</h1>
+        <div id="message" class="message"></div>
+
+        <label for="room-name">Room Name:</label>
+        <input type="text" id="room-name" required>
+
+        <button id="add-room-button">Add Room</button>
+        <button onclick="location.href='index.html'">Back</button>
+    </div>
+
+    <script>
+        // Function to add a room
+        function addRoom() {
+            const roomName = document.getElementById('room-name').value.trim();
+            const messageElement = document.getElementById('message');
+
+            // Validation: check if the room name is not empty
+            if (!roomName) {
+                messageElement.textContent = 'Please enter a room name.';
+                messageElement.style.color = 'red';
+                return;
+            }
+
+            // Get the existing rooms from localStorage or initialize an empty array if none exist
+            let rooms = JSON.parse(localStorage.getItem('rooms')) || [];
+
+            // Check if the room already exists in the system (case-insensitive)
+            const isDuplicate = rooms.some(room => room.name.toLowerCase() === roomName.toLowerCase());
+
+            if (isDuplicate) {
+                messageElement.textContent = `Room "${roomName}" already exists in the system.`;
+                messageElement.style.color = 'red';
+            } else {
+                // Add the room to the list if it doesn't already exist
+                rooms.push({ name: roomName });
+                localStorage.setItem('rooms', JSON.stringify(rooms));
+                messageElement.textContent = `Room "${roomName}" added successfully!`;
+                messageElement.style.color = 'green';
+
+                // Clear the input field
+                document.getElementById('room-name').value = '';
+            }
+        }
+
+        // Attach the addRoom function to the button click event
+        document.getElementById('add-room-button').addEventListener('click', addRoom);
+    </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Room</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Add Room</h1>
+        <div id="message" class="message"></div>
+
+        <label for="room-name">Room Name:</label>
+        <input type="text" id="room-name" required>
+
+        <button id="add-room-button">Add Room</button>
+        <button onclick="location.href='index.html'">Back</button>
+    </div>
+
+    <script>
+        // Function to add a room
+        function addRoom() {
+            const roomName = document.getElementById('room-name').value.trim();
+            const messageElement = document.getElementById('message');
+
+            // Validation: check if the room name is not empty
+            if (!roomName) {
+                messageElement.textContent = 'Please enter a room name.';
+                messageElement.style.color = 'red';
+                return;
+            }
+
+            // Get the existing rooms from localStorage or initialize an empty array if none exist
+            let rooms = JSON.parse(localStorage.getItem('rooms')) || [];
+
+            // Check if the room already exists in the system (case-insensitive)
+            const isDuplicate = rooms.some(room => room.name.toLowerCase() === roomName.toLowerCase());
+
+            if (isDuplicate) {
+                messageElement.textContent = `Room "${roomName}" already exists in the system.`;
+                messageElement.style.color = 'red';
+            } else {
+                // Add the room to the list if it doesn't already exist
+                rooms.push({ name: roomName });
+                localStorage.setItem('rooms', JSON.stringify(rooms));
+                messageElement.textContent = `Room "${roomName}" added successfully!`;
+                messageElement.style.color = 'green';
+
+                // Clear the input field
+                document.getElementById('room-name').value = '';
+            }
+        }
+
+        // Attach the addRoom function to the button click event
+        document.getElementById('add-room-button').addEventListener('click', addRoom);
+    </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Room</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Add Room</h1>
+        <div id="message" class="message"></div>
+
+        <label for="room-name">Room Name:</label>
+        <input type="text" id="room-name" required>
+
+        <button id="add-room-button">Add Room</button>
+        <button onclick="location.href='index.html'">Back</button>
+    </div>
+
+    <script>
+        // Function to add a room
+        function addRoom() {
+            const roomName = document.getElementById('room-name').value.trim();
+            const messageElement = document.getElementById('message');
+
+            // Validation: check if the room name is not empty
+            if (!roomName) {
+                messageElement.textContent = 'Please enter a room name.';
+                messageElement.style.color = 'red';
+                return;
+            }
+
+            // Get the existing rooms from localStorage or initialize an empty array if none exist
+            let rooms = JSON.parse(localStorage.getItem('rooms')) || [];
+
+            // Check if the room already exists in the system (case-insensitive)
+            const isDuplicate = rooms.some(room => room.name.toLowerCase() === roomName.toLowerCase());
+
+            if (isDuplicate) {
+                messageElement.textContent = `Room "${roomName}" already exists in the system.`;
+                messageElement.style.color = 'red';
+            } else {
+                // Add the room to the list if it doesn't already exist
+                rooms.push({ name: roomName });
+                localStorage.setItem('rooms', JSON.stringify(rooms));
+                messageElement.textContent = `Room "${roomName}" added successfully!`;
+                messageElement.style.color = 'green';
+
+                // Clear the input field
+                document.getElementById('room-name').value = '';
+            }
+        }
+
+        // Attach the addRoom function to the button click event
+        document.getElementById('add-room-button').addEventListener('click', addRoom);
+    </script>
+</body>
+</html>
