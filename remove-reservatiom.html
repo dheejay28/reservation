@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Remove Reservation</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <img src="logo.png" alt="Logo" class="logo"> <!-- Replace with your logo image -->
+        <h1>Remove a Reservation</h1>
+        <p id="current-date-time"></p>
+
+        <input type="text" id="reservation-code" placeholder="Enter Reservation Code" required>
+        <button onclick="removeReservation()">Remove Reservation</button>
+        <p id="remove-message" class="hidden"></p>
+
+        <button onclick="goHome()">Go Back</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const now = new Date();
+            document.getElementById('current-date-time').textContent = now.toLocaleString();
+        });
+
+        function removeReservation() {
+            const reservationCode = document.getElementById('reservation-code').value.trim();
+            const reservations = JSON.parse(localStorage.getItem('reservations')) || [];
+            const reservationIndex = reservations.findIndex(reservation => reservation.reservationCode == reservationCode);
+
+            if (reservationIndex === -1) {
+                document.getElementById('remove-message').textContent = 'Invalid reservation code.';
+                document.getElementById('remove-message').classList.remove('hidden');
+                return;
+            }
+
+            reservations.splice(reservationIndex, 1);
+            localStorage.setItem('reservations', JSON.stringify(reservations));
+
+            document.getElementById('remove-message').textContent = 'Reservation removed successfully.';
+            document.getElementById('remove-message').classList.remove('hidden');
+        }
+
+        function goHome() {
+            window.location.href = 'index.html'; // Change this to your homepage if it's named differently
+        }
+    </script>
+</body>
+</html>
