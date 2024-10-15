@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Reservations</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <img src="logo.png" alt="Logo" class="logo"> <!-- Replace with your logo image -->
+        <h1>Reserved Rooms</h1>
+        <p id="current-date-time"></p>
+
+        <ul id="reservation-list"></ul>
+
+        <button onclick="goHome()">Go Back</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const now = new Date();
+            document.getElementById('current-date-time').textContent = now.toLocaleString();
+            displayReservations();
+        });
+
+        function displayReservations() {
+            const reservations = JSON.parse(localStorage.getItem('reservations')) || [];
+            const reservationList = document.getElementById('reservation-list');
+            reservationList.innerHTML = '';
+
+            reservations.forEach((reservation, index) => {
+                const li = document.createElement('li');
+                li.textContent = `${reservation.room} from ${reservation.startTime} to ${reservation.endTime}`;
+                
+                // Create a remove button for admin
+                const removeButton = document.createElement('button');
+                removeButton.textContent = 'Remove';
+                removeButton.onclick = function() { removeReservation(index); };
+                
+                li.appendChild(removeButton);
+                reservationList.appendChild(li);
+            });
+
+            if (reservations.length === 0) {
+                const li = document.createElement('li');
+                li.textContent = 'No reservations found.';
+                reservationList.appendChild(li);
+            }
+        }
+
+        function removeReservation(index) {
+            const reservations = JSON.parse(localStorage.getItem('reservations')) || [];
+            reservations.splice(index, 1); // Remove the reservation at the specified index
+            localStorage.setItem('reservations', JSON.stringify(reservations)); // Update local storage
+            displayReservations(); // Refresh the displayed reservations
+        }
+
+        function goHome() {
+            window.location.href = 'index.html'; // Change this to your homepage if it's named differently
+        }
+    </script>
+</body>
+</html>
