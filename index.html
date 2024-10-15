@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Room Reservation System</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Room Reservation System</h1>
+        <div id="user-options">
+            <button onclick="location.href='reserve.html'">Reserve Room</button>
+            <button onclick="location.href='return-room.html'">Return Room</button>
+            <button onclick="location.href='view-reservations.html'">View Reserved Rooms</button>
+            <button onclick="toggleAdminLogin()" id="admin-login-btn">Log In</button>
+        </div>
+        
+        <div id="admin-options" class="hidden">
+            <button onclick="location.href='add-room.html'">Add Room</button>
+            <button onclick="logoutAdmin()" id="logout-btn">Log Out</button>
+        </div>
+        
+        <div id="login-form" class="hidden">
+            <h2>Admin Login</h2>
+            <input type="text" id="admin-username" placeholder="Username" required>
+            <input type="password" id="admin-password" placeholder="Password" required>
+            <button onclick="login()">Login</button>
+            <p id="login-message" class="hidden"></p>
+        </div>
+    </div>
+
+    <script>
+        function toggleAdminLogin() {
+            const loginForm = document.getElementById('login-form');
+            loginForm.classList.toggle('hidden');
+        }
+
+        function login() {
+            const username = document.getElementById('admin-username').value;
+            const password = document.getElementById('admin-password').value;
+
+            if (username === 'iamtheadmin' && password === 'Dj*0100010001001010') {
+                localStorage.setItem('isAdmin', 'true');
+                toggleAdminOptions(true);
+                toggleAdminLogin();
+            } else {
+                document.getElementById('login-message').textContent = 'Invalid username or password.';
+                document.getElementById('login-message').classList.remove('hidden');
+            }
+        }
+
+        function logoutAdmin() {
+            localStorage.removeItem('isAdmin');
+            toggleAdminOptions(false);
+        }
+
+        function toggleAdminOptions(show) {
+            const adminOptions = document.getElementById('admin-options');
+            const adminLoginBtn = document.getElementById('admin-login-btn');
+            if (show) {
+                adminOptions.classList.remove('hidden');
+                adminLoginBtn.classList.add('hidden');
+            } else {
+                adminOptions.classList.add('hidden');
+                adminLoginBtn.classList.remove('hidden');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const isAdmin = localStorage.getItem('isAdmin') === 'true';
+            toggleAdminOptions(isAdmin);
+        });
+    </script>
+</body>
+</html>
