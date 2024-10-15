@@ -12,11 +12,13 @@
         <h1>Room Reservation System</h1>
         <p id="current-date-time"></p>
 
-        <button onclick="window.location.href='reserve.html'">Reserve Room</button>
-        <button onclick="window.location.href='view-reservations.html'">View Reservations</button>
-        <button onclick="window.location.href='return-room.html'">Return Room</button>
-        <button id="logout-button" class="hidden" onclick="logout()">Log Out</button>
-        <button id="add-room-button" class="hidden" onclick="window.location.href='add-room.html'">Add Room</button>
+        <div class="button-container">
+            <button onclick="window.location.href='reserve.html'">Reserve Room</button>
+            <button onclick="window.location.href='view-reservations.html'">View Reservations</button>
+            <button onclick="window.location.href='return-room.html'">Return Room</button>
+            <button id="logout-button" class="hidden" onclick="logout()">Log Out</button>
+            <button id="add-room-button" class="hidden" onclick="window.location.href='add-room.html'">Add Room</button>
+        </div>
 
         <p id="message" class="hidden"></p>
     </div>
@@ -44,7 +46,8 @@
         function logout() {
             localStorage.removeItem('isAdmin'); // Remove admin status from local storage
             checkAdminStatus(); // Update the UI
-            alert("You have successfully logged out."); // Optional: Notify the user
+            alert("You have successfully logged out."); // Notify the user
+            window.location.href = 'login.html'; // Redirect to login page
         }
     </script>
 </body>
