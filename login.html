@@ -9,11 +9,11 @@
 <body>
     <div class="container">
         <h1>Admin Login</h1>
-        <div id="login-message" class="hidden"></div>
-        <input type="text" id="admin-username" placeholder="Username" required>
-        <input type="password" id="admin-password" placeholder="Password" required>
-        <button onclick="adminLogin()">Log In</button>
-        <button onclick="location.href='index.html'">Back</button>
+
+        <input type="text" id="admin-username" placeholder="Username">
+        <input type="password" id="admin-password" placeholder="Password">
+        <button onclick="adminLogin()">Login</button>
+        <p id="login-message" class="hidden"></p>
     </div>
 
     <script>
@@ -21,7 +21,7 @@
             const username = document.getElementById('admin-username').value;
             const password = document.getElementById('admin-password').value;
 
-            // Simple authentication check
+            // Check if the username and password match the admin credentials
             if (username === 'iamtheadmin' && password === 'Dj*0100010001001010') {
                 localStorage.setItem('isAdmin', 'true'); // Set admin status in local storage
                 window.location.href = 'index.html'; // Redirect to the main page
