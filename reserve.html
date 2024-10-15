@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reserve Room</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Reserve a Room</h1>
+        <input type="text" id="room-number" placeholder="Room Number" required>
+        <input type="time" id="start-time" required>
+        <input type="time" id="end-time" required>
+        <button onclick="reserveRoom()">Reserve Room</button>
+        <p id="reservation-message" class="hidden"></p>
+        <button onclick="location.href='index.html'">Back</button>
+    </div>
+
+    <script>
+        const reservedRooms = JSON.parse(localStorage.getItem('reservedRooms')) || [];
+
+        function reserveRoom() {
+            const roomNumber = document.getElementById('room-number').value;
+            const startTime = document.getElementById('start-time').value;
+            const endTime = document.getElementById('end-time').value;
+            const reservationCode = Math.floor(Math.random() * 1000000);
+
+            const isConflicted = reservedRooms.some(room => 
+                room.number === roomNumber && 
+                ((startTime >= room.startTime && startTime < room.endTime) || 
+                 (endTime > room.startTime && endTime <= room.endTime))
+            );
+
+            if (isConflicted) {
+                document.getElementById('reservation-message').textContent = 'Room is not available at that time.';
+                document.getElementById('reservation-message').classList.remove('hidden');
+                return;
+            }
+
+            reservedRooms.push({ number: roomNumber, startTime, endTime, code: reservationCode });
+            localStorage.setItem('reservedRooms', JSON.stringify(reservedRooms));
+            document.getElementById('reservation-message').textContent = `Reservation successful! Your code is: ${reservationCode}`;
+            document.getElementById('reservation-message').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
