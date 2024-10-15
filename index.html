@@ -42,8 +42,9 @@
         }
 
         function logout() {
-            localStorage.removeItem('isAdmin');
-            checkAdminStatus();
+            localStorage.removeItem('isAdmin'); // Remove admin status from local storage
+            checkAdminStatus(); // Update the UI
+            alert("You have successfully logged out."); // Optional: Notify the user
         }
     </script>
 </body>
