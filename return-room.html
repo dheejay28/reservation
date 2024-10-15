@@ -8,7 +8,6 @@
 </head>
 <body>
     <div class="container">
-        <!-- Logo and Date -->
         <img src="logo.png" alt="Logo" class="logo"> <!-- Replace with your logo image -->
         <h1>Return a Room</h1>
         <p id="current-date-time"></p>
@@ -22,19 +21,14 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Display current date and time
             const now = new Date();
             document.getElementById('current-date-time').textContent = now.toLocaleString();
         });
 
         function returnRoom() {
             const reservationCode = document.getElementById('reservation-code').value.trim();
-
-            // Get existing reservations
             const reservations = JSON.parse(localStorage.getItem('reservations')) || [];
-
-            // Find the reservation by code
-            const reservationIndex = reservations.findIndex(reservation => reservation.reservationCode === reservationCode);
+            const reservationIndex = reservations.findIndex(reservation => reservation.reservationCode == reservationCode);
 
             if (reservationIndex === -1) {
                 document.getElementById('return-message').textContent = 'Invalid reservation code.';
@@ -42,11 +36,9 @@
                 return;
             }
 
-            // Remove the reservation from the list
             reservations.splice(reservationIndex, 1);
             localStorage.setItem('reservations', JSON.stringify(reservations));
 
-            // Show success message
             document.getElementById('return-message').textContent = 'Room returned successfully.';
             document.getElementById('return-message').classList.remove('hidden');
         }
