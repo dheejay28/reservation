@@ -9,17 +9,13 @@
 <body>
     <div class="container">
         <img src="logo.png" alt="Logo" class="logo"> <!-- Replace with your logo image -->
-        <h1>Reserve a Room</h1>
+        <h1>Reserve Room</h1>
         <p id="current-date-time"></p>
 
-        <select id="room-select">
-            <option value="">Select Room</option>
-            <!-- Room options will be populated here -->
-        </select>
+        <input type="text" id="room-number" placeholder="Room Number" required>
         <input type="time" id="start-time" required>
         <input type="time" id="end-time" required>
         <button onclick="reserveRoom()">Reserve Room</button>
-        <p id="reservation-message" class="hidden"></p>
 
         <button onclick="goHome()">Go Back</button>
     </div>
@@ -28,50 +24,56 @@
         document.addEventListener('DOMContentLoaded', function() {
             const now = new Date();
             document.getElementById('current-date-time').textContent = now.toLocaleString();
-            populateRoomSelect();
         });
 
-        function populateRoomSelect() {
-            const roomSelect = document.getElementById('room-select');
-            const rooms = JSON.parse(localStorage.getItem('rooms')) || [];
-
-            rooms.forEach(room => {
-                const option = document.createElement('option');
-                option.value = room;
-                option.textContent = room;
-                roomSelect.appendChild(option);
-            });
-        }
-
         function reserveRoom() {
-            const roomSelect = document.getElementById('room-select');
-            const room = roomSelect.value;
+            const roomNumber = document.getElementById('room-number').value;
             const startTime = document.getElementById('start-time').value;
             const endTime = document.getElementById('end-time').value;
 
-            if (!room || !startTime || !endTime) {
-                alert('Please fill in all fields.');
+            // Check if the room exists
+            const rooms = JSON.parse(localStorage.getItem('rooms')) || [];
+            if (!rooms.includes(roomNumber)) {
+                alert('Room does not exist. Please select a valid room.');
                 return;
             }
 
+            // Check if the start time is before the end time
+            if (startTime >= endTime) {
+                alert('End time must be after start time.');
+                return;
+            }
+
+            // Check for overlapping reservations
             const reservations = JSON.parse(localStorage.getItem('reservations')) || [];
-            const overlapping = reservations.some(reservation => 
-                reservation.room === room && 
-                ((startTime >= reservation.startTime && startTime < reservation.endTime) || 
-                (endTime > reservation.startTime && endTime <= reservation.endTime))
-            );
-
-            if (overlapping) {
-                alert('This room is already reserved for the selected time.');
-                return;
+            for (const reservation of reservations) {
+                if (reservation.room === roomNumber) {
+                    if (
+                        (startTime >= reservation.startTime && startTime < reservation.endTime) ||
+                        (endTime > reservation.startTime && endTime <= reservation.endTime) ||
+                        (startTime <= reservation.startTime && endTime >= reservation.endTime)
+                    ) {
+                        alert('The room is already reserved for the selected time.');
+                        return;
+                    }
+                }
             }
 
-            const reservationCode = Math.floor(Math.random() * 1000000); // Generate a random reservation code
-            reservations.push({ room, startTime, endTime, reservationCode });
+            // If everything is okay, proceed to save the reservation
+            const reservationCode = Date.now(); // Unique reservation code
+            reservations.push({
+                room: roomNumber,
+                startTime: startTime,
+                endTime: endTime,
+                code: reservationCode
+            });
             localStorage.setItem('reservations', JSON.stringify(reservations));
+            alert(`Reservation successful! Your reservation code is: ${reservationCode}`);
 
-            document.getElementById('reservation-message').textContent = `Reservation successful! Your code is: ${reservationCode}`;
-            document.getElementById('reservation-message').classList.remove('hidden');
+            // Clear inputs
+            document.getElementById('room-number').value = '';
+            document.getElementById('start-time').value = '';
+            document.getElementById('end-time').value = '';
         }
 
         function goHome() {
