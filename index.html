@@ -5,58 +5,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Room Reservation System</title>
     <link rel="stylesheet" href="styles.css">
-    <style>
-        .logo {
-            display: block;
-            margin: 0 auto;
-            max-width: 150px; /* Adjust logo size */
-            margin-bottom: 10px; /* Space below the logo */
-        }
-        #current-date {
-            text-align: center;
-            font-size: 18px;
-            margin-bottom: 20px; /* Space below the date */
-        }
-    </style>
 </head>
 <body>
     <div class="container">
-        <img src="logo.png" alt="Logo" class="logo"> <!-- Replace with your logo path -->
-        <div id="current-date"></div>
         <h1>Room Reservation System</h1>
-        <button onclick="location.href='reserve.html'">Reserve Room</button>
+
+        <!-- Buttons for users -->
+        <button onclick="location.href='reserve-room.html'">Reserve Room</button>
         <button onclick="location.href='return-room.html'">Return Room</button>
-        <button onclick="location.href='view-reservations.html'">Reserved Rooms</button>
-        <button id="admin-button" style="display: none;" onclick="location.href='add-room.html'">Add Room</button>
-        <button onclick="location.href='login.html'">Log In</button>
+        <button onclick="location.href='reserved-rooms.html'">View Reserved Rooms</button>
+
+        <!-- Admin login and logout buttons -->
+        <button id="login-btn" onclick="location.href='login.html'">Login</button>
+        <button id="logout-btn" class="hidden" onclick="logout()">Logout</button>
+
+        <!-- Add Room button (only shown for admin) -->
+        <button id="add-room-btn" class="hidden" onclick="location.href='add-room.html'">Add Room</button>
     </div>
 
     <script>
-        // Check if the admin is logged in
-        const isAdmin = localStorage.getItem('isAdmin') === 'true';
-        
-        // Show "Add Room" button if admin is logged in
-        if (isAdmin) {
-            document.getElementById('admin-button').style.display = 'block';
-            // Change the Log In button to Log Out
-            const loginButton = document.createElement('button');
-            loginButton.innerText = 'Log Out';
-            loginButton.onclick = function() {
-                localStorage.removeItem('isAdmin'); // Log out admin
-                location.reload(); // Reload the page
-            };
-            document.body.appendChild(loginButton);
-        }
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if the admin is logged in
+            const isAdmin = localStorage.getItem('isAdmin') === 'true';
 
-        // Function to display the current date and time
-        function displayCurrentDate() {
-            const currentDateElement = document.getElementById('current-date');
-            const now = new Date();
-            currentDateElement.textContent = now.toLocaleString(); // Display date and time in a readable format
-        }
+            // Show/Hide buttons based on admin status
+            if (isAdmin) {
+                document.getElementById('login-btn').classList.add('hidden');
+                document.getElementById('logout-btn').classList.remove('hidden');
+                document.getElementById('add-room-btn').classList.remove('hidden');
+            } else {
+                document.getElementById('login-btn').classList.remove('hidden');
+                document.getElementById('logout-btn').classList.add('hidden');
+                document.getElementById('add-room-btn').classList.add('hidden');
+            }
+        });
 
-        // Call the function to display the date when the page loads
-        document.addEventListener('DOMContentLoaded', displayCurrentDate);
+        // Logout function
+        function logout() {
+            localStorage.removeItem('isAdmin');
+            window.location.reload();  // Reload the page to update buttons
+        }
     </script>
 </body>
 </html>
