@@ -15,7 +15,6 @@
         <button onclick="window.location.href='reserve.html'">Reserve Room</button>
         <button onclick="window.location.href='view-reservations.html'">View Reservations</button>
         <button onclick="window.location.href='return-room.html'">Return Room</button>
-        <button id="login-button" onclick="window.location.href='login.html'">Log In</button>
         <button id="logout-button" class="hidden" onclick="logout()">Log Out</button>
         <button id="add-room-button" class="hidden" onclick="window.location.href='add-room.html'">Add Room</button>
 
@@ -32,13 +31,11 @@
         function checkAdminStatus() {
             const isAdmin = localStorage.getItem('isAdmin');
             if (isAdmin) {
-                // Admin is logged in: hide login button, show logout button and add room button
-                document.getElementById('login-button').classList.add('hidden');
+                // Admin is logged in: show logout button and add room button
                 document.getElementById('logout-button').classList.remove('hidden');
                 document.getElementById('add-room-button').classList.remove('hidden');
             } else {
-                // Admin is not logged in: show login button, hide logout button and add room button
-                document.getElementById('login-button').classList.remove('hidden');
+                // Admin is not logged in: hide logout button and add room button
                 document.getElementById('logout-button').classList.add('hidden');
                 document.getElementById('add-room-button').classList.add('hidden');
             }
