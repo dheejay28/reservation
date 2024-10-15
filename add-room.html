@@ -17,4 +17,18 @@
 
     <script>
         function addRoom() {
-            const newRoomNumber = document.getElementById('new-room-number').
+            const newRoomNumber = document.getElementById('new-room-number').value;
+
+            if (!newRoomNumber) {
+                document.getElementById('add-room-message').textContent = 'Room number is required.';
+                document.getElementById('add-room-message').classList.remove('hidden');
+                return;
+            }
+
+            // You can implement the logic to actually add the room here, e.g., storing in localStorage or database.
+            document.getElementById('add-room-message').textContent = `Room ${newRoomNumber} added successfully!`;
+            document.getElementById('add-room-message').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
