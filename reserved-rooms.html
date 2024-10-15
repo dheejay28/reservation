@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reserved Rooms</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <img src="logo.png" alt="Logo" class="logo"> <!-- Replace with your logo image -->
+        <h1>Reserved Rooms</h1>
+        <p id="current-date-time"></p>
+
+        <ul id="reserved-rooms-list"></ul>
+
+        <button onclick="goHome()">Go Back</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const now = new Date();
+            document.getElementById('current-date-time').textContent = now.toLocaleString();
+            displayReservedRooms();
+        });
+
+        function displayReservedRooms() {
+            const reservations = JSON.parse(localStorage.getItem('reservations')) || [];
+            const reservedRoomsList = document.getElementById('reserved-rooms-list');
+
+            if (reservations.length === 0) {
+                reservedRoomsList.innerHTML = '<li>No reserved rooms.</li>';
+                return;
+            }
+
+            reservations.forEach(reservation => {
+                const listItem = document.createElement('li');
+                listItem.textContent = `Room: ${reservation.room}, Start Time: ${reservation.startTime}, End Time: ${reservation.endTime}`;
+                reservedRoomsList.appendChild(listItem);
+            });
+        }
+
+        function goHome() {
+            window.location.href = 'index.html'; // Change this to your homepage if it's named differently
+        }
+    </script>
+</body>
+</html>
