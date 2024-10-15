@@ -1,53 +1,70 @@
+/* Basic resets */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
     margin: 0;
-    padding: 20px;
+    padding: 0;
 }
 
+/* Container for centralizing content */
 .container {
-    max-width: 600px;
-    margin: auto;
-    background: white;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 400px; /* Max width for container */
+    margin: 100px auto; /* Center the container */
+    padding: 20px; /* Padding inside the container */
+    background: white; /* White background */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 0 10px rgba(0,0,0,0.1); /* Shadow effect */
+    text-align: center; /* Centered text */
 }
 
-h1 {
-    text-align: center;
+/* Styling for logo */
+.logo {
+    width: 100px; /* Adjust the size of your logo */
+    margin-bottom: 20px; /* Space below the logo */
 }
 
-input[type="text"], input[type="time"] {
-    width: calc(100% - 20px);
-    padding: 10px;
-    margin: 10px 0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-button {
-    width: 100%;
-    padding: 10px;
-    background: #007BFF;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin: 5px 0;
-}
-
-button:hover {
-    background: #0056b3;
-}
-
+/* Hidden class for messages */
 .hidden {
-    display: none;
+    display: none; /* Hide elements */
 }
 
-.reserved-room {
-    background: #e9ecef;
-    margin: 10px 0;
-    padding: 10px;
-    border-radius: 5px;
+/* Button styles */
+button {
+    background: #5cb85c; /* Green background */
+    color: white; /* White text */
+    border: none; /* No border */
+    padding: 10px 20px; /* Padding around text */
+    border-radius: 5px; /* Rounded corners for buttons */
+    cursor: pointer; /* Pointer cursor on hover */
+    margin: 10px 0; /* Margin above and below */
+    width: 100%; /* Full width */
+    font-size: 16px; /* Font size */
+}
+
+/* Button hover effect */
+button:hover {
+    background: #4cae4c; /* Darker green on hover */
+}
+
+/* Styling for input fields */
+input[type="text"],
+input[type="password"] {
+    width: 100%; /* Full width */
+    padding: 10px; /* Padding inside fields */
+    margin: 10px 0; /* Margin above and below */
+    border: 1px solid #ccc; /* Light gray border */
+    border-radius: 4px; /* Rounded corners */
+}
+
+/* Styling for messages */
+p {
+    color: red; /* Red text for messages */
+    margin-top: 10px; /* Space above messages */
+    font-size: 14px; /* Font size */
 }
