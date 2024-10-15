@@ -12,40 +12,39 @@
         <h1>Room Reservation System</h1>
         <p id="current-date-time"></p>
 
-        <button onclick="window.location.href='reserve-room.html'">Reserve Room</button>
+        <button onclick="window.location.href='reserve.html'">Reserve Room</button>
+        <button onclick="window.location.href='view-reservations.html'">View Reservations</button>
         <button onclick="window.location.href='return-room.html'">Return Room</button>
-        <button onclick="window.location.href='reserved-rooms.html'">Reserved Rooms</button>
-        <button id="admin-button" class="hidden" onclick="window.location.href='add-room.html'">Add Room</button>
-        <button id="remove-reservation-button" class="hidden" onclick="window.location.href='remove-reservation.html'">Remove Reservation</button>
-        <button id="login-button" onclick="toggleLogin()">Log In</button>
+        <button id="login-button" onclick="window.location.href='login.html'">Log In</button>
+        <button id="logout-button" class="hidden" onclick="logout()">Log Out</button>
+        <button id="add-room-button" class="hidden" onclick="window.location.href='add-room.html'">Add Room</button>
+
+        <p id="message" class="hidden"></p>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const now = new Date();
             document.getElementById('current-date-time').textContent = now.toLocaleString();
-
-            const isAdmin = localStorage.getItem('isAdmin') === 'true';
-            document.getElementById('admin-button').classList.toggle('hidden', !isAdmin);
-            document.getElementById('remove-reservation-button').classList.toggle('hidden', !isAdmin);
-            document.getElementById('login-button').textContent = isAdmin ? 'Log Out' : 'Log In';
+            checkAdminStatus();
         });
 
-        function toggleLogin() {
-            const isAdmin = localStorage.getItem('isAdmin') === 'true';
+        function checkAdminStatus() {
+            const isAdmin = localStorage.getItem('isAdmin');
             if (isAdmin) {
-                localStorage.removeItem('isAdmin');
-                window.location.reload();
+                document.getElementById('login-button').classList.add('hidden');
+                document.getElementById('logout-button').classList.remove('hidden');
+                document.getElementById('add-room-button').classList.remove('hidden');
             } else {
-                const username = prompt("Enter admin username:");
-                const password = prompt("Enter admin password:");
-                if (username === 'iamtheadmin' && password === 'Dj*0100010001001010') {
-                    localStorage.setItem('isAdmin', 'true');
-                    window.location.reload();
-                } else {
-                    alert('Invalid username or password.');
-                }
+                document.getElementById('login-button').classList.remove('hidden');
+                document.getElementById('logout-button').classList.add('hidden');
+                document.getElementById('add-room-button').classList.add('hidden');
             }
+        }
+
+        function logout() {
+            localStorage.removeItem('isAdmin');
+            checkAdminStatus();
         }
     </script>
 </body>
