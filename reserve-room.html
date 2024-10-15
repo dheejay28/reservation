@@ -13,9 +13,9 @@
         <h1>Reserve a Room</h1>
         <p id="current-date-time"></p>
 
-        <input type="text" id="room-number" placeholder="Enter Room Number">
-        <input type="datetime-local" id="start-time" placeholder="Start Time">
-        <input type="datetime-local" id="end-time" placeholder="End Time">
+        <input type="text" id="room-number" placeholder="Enter Room Number" required>
+        <input type="datetime-local" id="start-time" placeholder="Start Time" required>
+        <input type="datetime-local" id="end-time" placeholder="End Time" required>
         <button onclick="reserveRoom()">Reserve Room</button>
         <p id="reservation-message" class="hidden"></p>
     </div>
