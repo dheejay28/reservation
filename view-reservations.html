@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>View Reservations</title>
+    <title>Reserved Rooms</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -29,16 +29,19 @@
             const reservationList = document.getElementById('reservation-list');
             reservationList.innerHTML = '';
 
-            reservations.forEach((reservation, index) => {
+            reservations.forEach((reservation) => {
                 const li = document.createElement('li');
-                li.textContent = `${reservation.room} from ${reservation.startTime} to ${reservation.endTime}`;
-                
-                // Create a remove button for admin
-                const removeButton = document.createElement('button');
-                removeButton.textContent = 'Remove';
-                removeButton.onclick = function() { removeReservation(index); };
-                
-                li.appendChild(removeButton);
+                li.textContent = `Room: ${reservation.room}, Start Time: ${reservation.startTime}, End Time: ${reservation.endTime}`;
+
+                // Check if admin is logged in
+                const isAdmin = localStorage.getItem('isAdmin') === 'true';
+                if (isAdmin) {
+                    const removeButton = document.createElement('button');
+                    removeButton.textContent = 'Remove';
+                    removeButton.onclick = function() { removeReservation(reservation.code); };
+                    li.appendChild(removeButton);
+                }
+
                 reservationList.appendChild(li);
             });
 
@@ -49,11 +52,11 @@
             }
         }
 
-        function removeReservation(index) {
-            const reservations = JSON.parse(localStorage.getItem('reservations')) || [];
-            reservations.splice(index, 1); // Remove the reservation at the specified index
+        function removeReservation(code) {
+            let reservations = JSON.parse(localStorage.getItem('reservations')) || [];
+            reservations = reservations.filter(reservation => reservation.code !== code);
             localStorage.setItem('reservations', JSON.stringify(reservations)); // Update local storage
-            displayReservations(); // Refresh the displayed reservations
+            displayReservations(); // Refresh displayed reservations
         }
 
         function goHome() {
