@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Reserved Rooms</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Reserved Rooms</h1>
+        <div id="reserved-rooms"></div>
+        <button onclick="location.href='index.html'">Back</button>
+    </div>
+
+    <script>
+        function displayReservedRooms() {
+            const reservedRoomsContainer = document.getElementById('reserved-rooms');
+            reservedRoomsContainer.innerHTML = '';
+
+            const reservedRooms = JSON.parse(localStorage.getItem('reservedRooms')) || [];
+
+            reservedRooms.forEach(room => {
+                const roomDiv = document.createElement('div');
+                roomDiv.className = 'reserved-room';
+                roomDiv.innerHTML = `
+                    <h3>Room Number: ${room.number}</h3>
+                    <p>Reserved From: ${room.startTime} To: ${room.endTime}</p>
+                `;
+                reservedRoomsContainer.appendChild(roomDiv);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', displayReservedRooms);
+    </script>
+</body>
+</html>
