@@ -8,7 +8,10 @@
 </head>
 <body>
     <div class="container">
+        <!-- Logo and Date -->
+        <img src="logo.png" alt="Logo" class="logo"> <!-- Replace with your logo image -->
         <h1>Room Reservation System</h1>
+        <p id="current-date-time"></p>
 
         <!-- Buttons for users -->
         <button onclick="location.href='reserve-room.html'">Reserve Room</button>
@@ -25,6 +28,10 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Display current date and time
+            const now = new Date();
+            document.getElementById('current-date-time').textContent = now.toLocaleString();
+
             // Check if the admin is logged in
             const isAdmin = localStorage.getItem('isAdmin') === 'true';
 
