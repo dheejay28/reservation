@@ -5,15 +5,48 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reserve Room</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        .dropdown {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        .dropdown-toggle {
+            width: 100%;
+            padding: 10px;
+            background-color: #f2f2f2;
+            border: 1px solid #ccc;
+            cursor: pointer;
+            text-align: left;
+        }
+        .dropdown-list {
+            display: none;
+            background-color: white;
+            border: 1px solid #ccc;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+        .dropdown-list li {
+            padding: 10px;
+            cursor: pointer;
+        }
+        .dropdown-list li:hover {
+            background-color: #ddd;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
         <h1>Reserve Room</h1>
         <div id="message" class="message"></div>
-        <label for="room-select">Select Room:</label>
-        <select id="room-select">
-            <!-- Rooms will be populated here -->
-        </select>
+
+        <!-- Dropdown list to select a room -->
+        <div class="dropdown">
+            <div class="dropdown-toggle" onclick="toggleDropdown()">Select Room</div>
+            <ul id="room-list" class="dropdown-list">
+                <!-- Rooms will be populated here -->
+            </ul>
+        </div>
+        <input type="hidden" id="selected-room" required> <!-- Hidden field for storing selected room -->
 
         <label for="start-time">Start Time:</label>
         <input type="time" id="start-time" required>
@@ -26,22 +59,33 @@
     </div>
 
     <script>
-        // Display all rooms in the dropdown
+        // Toggle dropdown visibility
+        function toggleDropdown() {
+            const roomList = document.getElementById('room-list');
+            roomList.style.display = roomList.style.display === 'block' ? 'none' : 'block';
+        }
+
+        // Populate rooms in the dropdown
         function populateRooms() {
-            const roomSelect = document.getElementById('room-select');
+            const roomList = document.getElementById('room-list');
             const rooms = JSON.parse(localStorage.getItem('rooms')) || [];
 
-            roomSelect.innerHTML = ''; // Clear dropdown
+            roomList.innerHTML = ''; // Clear the list
             rooms.forEach(room => {
-                const option = document.createElement('option');
-                option.value = room.name;
-                option.textContent = room.name;
-                roomSelect.appendChild(option);
+                const li = document.createElement('li');
+                li.textContent = room.name;
+                li.onclick = function() {
+                    document.querySelector('.dropdown-toggle').textContent = room.name;
+                    document.getElementById('selected-room').value = room.name; // Store selected room
+                    roomList.style.display = 'none'; // Hide the dropdown after selection
+                };
+                roomList.appendChild(li);
             });
         }
 
+        // Function to reserve a room
         function reserveRoom() {
-            const roomName = document.getElementById('room-select').value;
+            const roomName = document.getElementById('selected-room').value;
             const startTime = document.getElementById('start-time').value;
             const endTime = document.getElementById('end-time').value;
             const messageElement = document.getElementById('message');
