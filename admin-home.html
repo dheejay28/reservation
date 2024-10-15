@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Home</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <img src="logo.png" alt="Logo" class="logo"> <!-- Replace with your logo image -->
+        <h1>Admin Home</h1>
+        <p id="current-date-time"></p>
+
+        <!-- Reserved Rooms Button -->
+        <button onclick="viewReservedRooms()">View Reserved Rooms</button>
+
+        <!-- Add Room Button, only visible when logged in -->
+        <button id="add-room-button" onclick="goToAddRoom()" class="hidden">Add Room</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const now = new Date();
+            document.getElementById('current-date-time').textContent = now.toLocaleString();
+            checkAdminLogin();
+        });
+
+        function checkAdminLogin() {
+            const isAdmin = localStorage.getItem('isAdmin');
+            if (isAdmin === 'true') {
+                // Show the Add Room button
+                document.getElementById('add-room-button').classList.remove('hidden');
+            } else {
+                // Optionally, you can redirect to the login page
+                // window.location.href = 'login.html'; 
+            }
+        }
+
+        function viewReservedRooms() {
+            window.location.href = 'reserved_rooms.html'; // Change to your reserved rooms page
+        }
+
+        function goToAddRoom() {
+            window.location.href = 'add_room.html'; // Change to your add room page
+        }
+    </script>
+</body>
+</html>
