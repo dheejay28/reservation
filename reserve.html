@@ -3,18 +3,73 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Room</title>
+    <title>Reserve Room</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
-        <h1>Add Room</h1>
-        <input type="text" id="new-room-number" placeholder="New Room Number" required>
-        <button onclick="addRoom()">Add Room</button>
-        <p id="add-room-message" class="hidden"></p>
-        <button onclick="location.href='index.html'">Back</button>
+        <!-- Logo and Date -->
+        <img src="logo.png" alt="Logo" class="logo"> <!-- Replace with your logo image -->
+        <h1>Reserve a Room</h1>
+        <p id="current-date-time"></p>
+
+        <input type="text" id="room-number" placeholder="Enter Room Number">
+        <input type="datetime-local" id="start-time" placeholder="Start Time">
+        <input type="datetime-local" id="end-time" placeholder="End Time">
+        <button onclick="reserveRoom()">Reserve Room</button>
+        <p id="reservation-message" class="hidden"></p>
     </div>
 
     <script>
-        function addRoom() {
-            const newRoomNumber = document.getElementById('new-room-number').value
+        document.addEventListener('DOMContentLoaded', function() {
+            // Display current date and time
+            const now = new Date();
+            document.getElementById('current-date-time').textContent = now.toLocaleString();
+        });
+
+        function reserveRoom() {
+            const roomNumber = document.getElementById('room-number').value;
+            const startTime = new Date(document.getElementById('start-time').value);
+            const endTime = new Date(document.getElementById('end-time').value);
+
+            // Check for valid input
+            if (!roomNumber || !startTime || !endTime) {
+                document.getElementById('reservation-message').textContent = 'Please fill in all fields.';
+                document.getElementById('reservation-message').classList.remove('hidden');
+                return;
+            }
+
+            // Get existing reservations
+            const reservations = JSON.parse(localStorage.getItem('reservations')) || [];
+
+            // Check for overlapping reservations
+            const isRoomAvailable = reservations.every(reservation => {
+                return reservation.roomNumber !== roomNumber || 
+                       (endTime <= new Date(reservation.startTime) || startTime >= new Date(reservation.endTime));
+            });
+
+            if (!isRoomAvailable) {
+                document.getElementById('reservation-message').textContent = 'Room is not available at this time.';
+                document.getElementById('reservation-message').classList.remove('hidden');
+                return;
+            }
+
+            // Create reservation
+            const reservationCode = Math.random().toString(36).substring(2, 10).toUpperCase();
+            reservations.push({
+                roomNumber: roomNumber,
+                startTime: startTime.toISOString(),
+                endTime: endTime.toISOString(),
+                reservationCode: reservationCode
+            });
+
+            // Save to localStorage
+            localStorage.setItem('reservations', JSON.stringify(reservations));
+
+            // Show success message
+            document.getElementById('reservation-message').textContent = `Reservation successful! Your reservation code is: ${reservationCode}`;
+            document.getElementById('reservation-message').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
