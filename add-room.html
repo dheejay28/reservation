@@ -5,29 +5,45 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Room</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        .message {
+            color: red;
+            margin-bottom: 10px;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
         <h1>Add Room</h1>
-        <input type="text" id="new-room-number" placeholder="New Room Number" required>
+        <div id="message" class="message"></div>
+        <label for="room-name">Room Name:</label>
+        <input type="text" id="room-name" required>
         <button onclick="addRoom()">Add Room</button>
-        <p id="add-room-message" class="hidden"></p>
         <button onclick="location.href='index.html'">Back</button>
     </div>
 
     <script>
         function addRoom() {
-            const newRoomNumber = document.getElementById('new-room-number').value;
+            const roomName = document.getElementById('room-name').value.trim();
+            const messageElement = document.getElementById('message');
 
-            if (!newRoomNumber) {
-                document.getElementById('add-room-message').textContent = 'Room number is required.';
-                document.getElementById('add-room-message').classList.remove('hidden');
+            if (roomName === '') {
+                messageElement.textContent = 'Please enter a room name.';
                 return;
             }
 
-            // You can implement the logic to actually add the room here, e.g., storing in localStorage or database.
-            document.getElementById('add-room-message').textContent = `Room ${newRoomNumber} added successfully!`;
-            document.getElementById('add-room-message').classList.remove('hidden');
+            let rooms = JSON.parse(localStorage.getItem('rooms')) || [];
+
+            // Check if the room name already exists
+            const roomExists = rooms.some(room => room.name.toLowerCase() === roomName.toLowerCase());
+
+            if (roomExists) {
+                messageElement.textContent = `The room "${roomName}" is already in the system.`;
+            } else {
+                rooms.push({ name: roomName });
+                localStorage.setItem('rooms', JSON.stringify(rooms));
+                messageElement.textContent = `Room "${roomName}" has been added successfully.`;
+            }
         }
     </script>
 </body>
