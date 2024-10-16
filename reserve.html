@@ -1,3 +1,4 @@
+<!-- reserve.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,129 +6,61 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reserve Room</title>
     <link rel="stylesheet" href="styles.css">
-    <style>
-        /* Additional styles for smaller logo and button color */
-        .logo {
-            width: 150px; /* Adjust as needed */
-            height: auto;
-        }
-
-        button {
-            background-color: lightblue; /* Light blue button color */
-            border: none;
-            color: white;
-            padding: 10px 15px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin: 4px 2px;
-            cursor: pointer;
-            border-radius: 5px; /* Rounded corners */
-        }
-
-        .hidden {
-            display: none;
-        }
-    </style>
 </head>
 <body>
     <div class="container">
         <img src="logo.png" alt="Logo" class="logo"> <!-- Replace with your logo image -->
-        <h1>Reserve a Room</h1>
-        <p id="current-date-time"></p>
+        <h1>Reserve Room</h1>
 
-        <label for="room-select">Select Room:</label>
-        <select id="room-select">
-            <!-- Room options will be populated here -->
-        </select>
+        <form id="reservation-form">
+            <select id="room-select">
+                <option value="">Select Room</option>
+                <option value="101">Room 101</option>
+                <option value="102">Room 102</option>
+                <option value="103">Room 103</option>
+                <!-- Add other rooms dynamically as needed -->
+            </select>
 
-        <label for="start-time">Start Time:</label>
-        <input type="time" id="start-time" required>
+            <input type="text" id="year" placeholder="Enter Year" required>
+            <input type="text" id="section" placeholder="Enter Section" required>
+            <input type="time" id="start-time" required>
+            <input type="time" id="end-time" required>
 
-        <label for="end-time">End Time:</label>
-        <input type="time" id="end-time" required>
+            <button type="submit">Reserve</button>
+        </form>
 
-        <button onclick="reserveRoom()">Reserve Room</button>
-        <p id="reservation-message" class="hidden"></p>
-        <button onclick="goHome()">Go Back</button>
+        <p id="message" class="hidden"></p>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const now = new Date();
-            document.getElementById('current-date-time').textContent = now.toLocaleString();
-            populateRoomSelect();
-        });
+        document.getElementById('reservation-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the form from submitting
 
-        function populateRoomSelect() {
-            const roomSelect = document.getElementById('room-select');
-            const rooms = JSON.parse(localStorage.getItem('rooms')) || []; // Fetch available rooms from local storage
-
-            rooms.forEach(room => {
-                const option = document.createElement('option');
-                option.value = room;
-                option.textContent = room;
-                roomSelect.appendChild(option);
-            });
-        }
-
-        function reserveRoom() {
-            const roomSelect = document.getElementById('room-select');
-            const room = roomSelect.value;
+            const room = document.getElementById('room-select').value;
+            const year = document.getElementById('year').value;
+            const section = document.getElementById('section').value;
             const startTime = document.getElementById('start-time').value;
             const endTime = document.getElementById('end-time').value;
 
-            if (!room || !startTime || !endTime) {
-                alert('Please fill in all fields.');
-                return;
-            }
+            // Create reservation object
+            const reservation = {
+                room,
+                year,
+                section,
+                startTime,
+                endTime,
+                code: Date.now() // Unique code for each reservation
+            };
 
-            const reservations = JSON.parse(localStorage.getItem('reservations')) || [];
-            const overlapping = reservations.some(reservation => 
-                reservation.room === room && 
-                ((startTime >= reservation.startTime && startTime < reservation.endTime) || 
-                (endTime > reservation.startTime && endTime <= reservation.endTime))
-            );
-
-            if (overlapping) {
-                alert('This room is already reserved for the selected time.');
-                return;
-            }
-
-            const reservationCode = Math.floor(Math.random() * 1000000); // Generate a random reservation code
-            reservations.push({ room, startTime, endTime, reservationCode });
+            // Store reservation in local storage
+            let reservations = JSON.parse(localStorage.getItem('reservations')) || [];
+            reservations.push(reservation);
             localStorage.setItem('reservations', JSON.stringify(reservations));
 
-            // Send notification reminder
-            sendNotification(`Room ${room} reserved!`, `Your reservation is from ${formatTime(startTime)} to ${formatTime(endTime)}.`);
-
-            document.getElementById('reservation-message').textContent = `Reservation successful! Your code is: ${reservationCode}`;
-            document.getElementById('reservation-message').classList.remove('hidden');
-        }
-
-        function sendNotification(title, body) {
-            if (Notification.permission === 'granted') {
-                new Notification(title, { body });
-            } else if (Notification.permission !== 'denied') {
-                Notification.requestPermission().then(permission => {
-                    if (permission === 'granted') {
-                        new Notification(title, { body });
-                    }
-                });
-            }
-        }
-
-        function formatTime(time) {
-            const [hours, minutes] = time.split(':');
-            const formattedHours = hours % 12 || 12; // Convert to 12-hour format
-            const ampm = hours < 12 ? 'AM' : 'PM';
-            return `${formattedHours}:${minutes} ${ampm}`;
-        }
-
-        function goHome() {
-            window.location.href = 'index.html'; // Change this to your homepage if it's named differently
-        }
+            // Show confirmation message
+            document.getElementById('message').textContent = 'Room reserved successfully!';
+            document.getElementById('reservation-form').reset();
+        });
     </script>
 </body>
 </html>
