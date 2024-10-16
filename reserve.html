@@ -12,8 +12,9 @@
         <h1>Reserve a Room</h1>
         <p id="current-date-time" class="centered-date-time"></p>
 
-        <select id="room-select">
+        <select id="room-select" required>
             <option value="">Select Room</option>
+            <!-- Room options will be populated dynamically -->
         </select>
         <input type="time" id="start-time" required>
         <input type="time" id="end-time" required>
@@ -35,7 +36,7 @@
 
         function populateRoomSelect() {
             const roomSelect = document.getElementById('room-select');
-            const rooms = JSON.parse(localStorage.getItem('rooms')) || [];
+            const rooms = JSON.parse(localStorage.getItem('rooms')) || []; // Assuming rooms are stored in local storage
 
             rooms.forEach(room => {
                 const option = document.createElement('option');
@@ -76,7 +77,8 @@
             localStorage.setItem('reservations', JSON.stringify(reservations));
 
             // Display the reservation message with the code
-            document.getElementById('reservation-message').textContent = `Reservation successful! Your code is: ${reservationCode}`;
+            document.getElementById('reservation-message').textContent = 
+                `Reservation successful! Your code is: ${reservationCode}. Use this code to return the room.`;
             document.getElementById('reservation-message').classList.remove('hidden');
         }
 
