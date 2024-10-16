@@ -12,7 +12,7 @@
         <h1>Reserved Rooms</h1>
         <p id="current-date-time"></p>
 
-        <ul id="reserved-rooms-list"></ul>
+        <ul id="reservation-list"></ul>
 
         <button onclick="goHome()">Go Back</button>
     </div>
@@ -21,23 +21,32 @@
         document.addEventListener('DOMContentLoaded', function() {
             const now = new Date();
             document.getElementById('current-date-time').textContent = now.toLocaleString();
-            displayReservedRooms();
+            displayReservations();
         });
 
-        function displayReservedRooms() {
+        function displayReservations() {
             const reservations = JSON.parse(localStorage.getItem('reservations')) || [];
-            const reservedRoomsList = document.getElementById('reserved-rooms-list');
+            const reservationList = document.getElementById('reservation-list');
+            reservationList.innerHTML = '';
+
+            reservations.forEach((reservation) => {
+                const li = document.createElement('li');
+                li.textContent = `Room: ${reservation.room}, Start Time: ${formatTime(reservation.startTime)}, End Time: ${formatTime(reservation.endTime)}, Course: ${reservation.course}, Year: ${reservation.year}`;
+                reservationList.appendChild(li);
+            });
 
             if (reservations.length === 0) {
-                reservedRoomsList.innerHTML = '<li>No reserved rooms.</li>';
-                return;
+                const li = document.createElement('li');
+                li.textContent = 'No reservations found.';
+                reservationList.appendChild(li);
             }
+        }
 
-            reservations.forEach(reservation => {
-                const listItem = document.createElement('li');
-                listItem.textContent = `Room: ${reservation.room}, Start Time: ${reservation.startTime}, End Time: ${reservation.endTime}`;
-                reservedRoomsList.appendChild(listItem);
-            });
+        function formatTime(time) {
+            const [hours, minutes] = time.split(':');
+            const formattedHours = (hours % 12) || 12; // Convert to 12-hour format
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            return `${formattedHours}:${minutes} ${ampm}`;
         }
 
         function goHome() {
