@@ -10,20 +10,21 @@
     <div class="container">
         <img src="logo.png" alt="Logo" class="logo"> <!-- Replace with your logo image -->
         <h1>Room Reservation System</h1>
-        <p id="current-date-time"></p>
+        <p id="current-date-time"></p> <!-- This will display the current date and time -->
 
-        <button onclick="window.location.href='reserve.html'">Reserve Room</button>
-        <button onclick="window.location.href='view-reservations.html'">View Reservations</button>
-        <button onclick="window.location.href='return-room.html'">Return Room</button>
-        <button id="login-button" onclick="window.location.href='login.html'">Log In</button>
-
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                const now = new Date();
-                document.getElementById('current-date-time').textContent = now.toLocaleString();
-            });
-        </script>
+        <div class="button-container">
+            <button onclick="window.location.href='reserve.html'">Reserve Room</button>
+            <button onclick="window.location.href='view-reservations.html'">View Reservations</button>
+            <button onclick="window.location.href='return-room.html'">Return Room</button>
+            <button id="login-button" onclick="window.location.href='login.html'">Log In</button>
+        </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const now = new Date();
+            document.getElementById('current-date-time').textContent = now.toLocaleString();
+        });
+    </script>
 </body>
 </html>
-
