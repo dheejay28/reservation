@@ -1,76 +1,5 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-}
-
-.container {
-    background-color: white;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
-}
-
-.logo {
-    max-width: 100px; /* Adjust the size of the logo */
-    margin-bottom: 20px;
-}
-
-h1 {
-    margin-bottom: 20px;
-}
-
-#current-date-time {
-    margin: 20px 0;
-    font-size: 14px;
-    text-align: center; /* Center the date and time */
-}
-
-input[type="text"],
-input[type="time"],
-select {
-    width: 100%;
-    padding: 10px;
-    margin: 10px 0;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box; /* Include padding in width */
-}
-
-button {
-    background-color: #007bff; /* Blue color */
-    color: white;
-    padding: 10px;
-    margin: 10px 0; /* Space between buttons */
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    width: 100%; /* Make buttons full width */
-    font-size: 16px; /* Same font size for all buttons */
-    transition: background-color 0.3s; /* Smooth color transition */
-}
-
-button:hover {
-    background-color: #0056b3; /* Darker blue on hover */
-}
-
-.hidden {
-    display: none; /* Hide elements with this class */
-}
-
-/* Make buttons vertically aligned */
-.container button {
-    display: block; /* Ensure buttons are stacked vertically */
-}
-
-body {
-    font-family: Arial, sans-serif;
     background-color: #f0f0f0;
     display: flex;
     justify-content: center;
@@ -84,12 +13,26 @@ body {
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
+    text-align: center; /* Center the text and elements */
 }
 
 .logo {
     width: 100px; /* Adjust size as needed */
     margin-bottom: 20px;
+    display: block; /* Make it a block element */
+    margin-left: auto; /* Center horizontally */
+    margin-right: auto; /* Center horizontally */
+}
+
+h1 {
+    margin: 10px 0; /* Space around the title */
+    text-align: center; /* Center the title text */
+}
+
+p#current-date-time {
+    margin: 10px 0; /* Space around the date and time */
+    font-weight: bold; /* Make the date/time stand out */
+    text-align: center; /* Center the date and time text */
 }
 
 input[type="text"], input[type="password"] {
