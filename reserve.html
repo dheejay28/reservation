@@ -10,79 +10,74 @@
     <div class="container">
         <img src="logo.png" alt="Logo" class="logo"> <!-- Replace with your logo image -->
         <h1>Reserve a Room</h1>
-        <p id="current-date-time"></p>
+        <p id="current-date-time" class="centered-date-time"></p>
 
-        <div class="form-group">
-            <label for="select-room">Select Room:</label>
-            <select id="select-room">
-                <!-- Options will be populated here -->
-            </select>
-        </div>
+        <select id="room-select">
+            <option value="">Select Room</option>
+        </select>
+        <input type="time" id="start-time" required>
+        <input type="time" id="end-time" required>
+        <input type="text" id="course" placeholder="Course" required>
+        <input type="text" id="section" placeholder="Section" required>
+        <input type="text" id="year" placeholder="Year" required>
+        <button onclick="reserveRoom()">Reserve Room</button>
+        <p id="reservation-message" class="hidden"></p>
 
-        <div class="form-group">
-            <label for="start-time">Start Time:</label>
-            <input type="time" id="start-time" required>
-        </div>
-
-        <div class="form-group">
-            <label for="end-time">End Time:</label>
-            <input type="time" id="end-time" required>
-        </div>
-
-        <button id="reserve-button" onclick="reserveRoom()">Reserve Room</button>
         <button onclick="goHome()">Go Back</button>
-
-        <p id="message" class="hidden"></p>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const now = new Date();
             document.getElementById('current-date-time').textContent = now.toLocaleString();
-            populateRoomOptions();
+            populateRoomSelect();
         });
 
-        function populateRoomOptions() {
+        function populateRoomSelect() {
+            const roomSelect = document.getElementById('room-select');
             const rooms = JSON.parse(localStorage.getItem('rooms')) || [];
-            const selectRoom = document.getElementById('select-room');
-            selectRoom.innerHTML = ''; // Clear existing options
 
-            rooms.forEach((room) => {
+            rooms.forEach(room => {
                 const option = document.createElement('option');
-                option.value = room; // Set value to room number
-                option.textContent = room; // Set display text to room number
-                selectRoom.appendChild(option);
+                option.value = room;
+                option.textContent = room;
+                roomSelect.appendChild(option);
             });
         }
 
         function reserveRoom() {
-            const room = document.getElementById('select-room').value;
+            const roomSelect = document.getElementById('room-select');
+            const room = roomSelect.value;
             const startTime = document.getElementById('start-time').value;
             const endTime = document.getElementById('end-time').value;
+            const course = document.getElementById('course').value;
+            const section = document.getElementById('section').value;
+            const year = document.getElementById('year').value;
 
-            // Simple validation
-            if (!room || !startTime || !endTime) {
+            if (!room || !startTime || !endTime || !course || !section || !year) {
                 alert('Please fill in all fields.');
                 return;
             }
 
             const reservations = JSON.parse(localStorage.getItem('reservations')) || [];
-            const newReservation = {
-                room: room,
-                startTime: startTime,
-                endTime: endTime,
-            };
+            const overlapping = reservations.some(reservation => 
+                reservation.room === room && 
+                ((startTime >= reservation.startTime && startTime < reservation.endTime) || 
+                (endTime > reservation.startTime && endTime <= reservation.endTime))
+            );
 
-            // Add reservation to local storage
-            reservations.push(newReservation);
+            if (overlapping) {
+                alert('This room is already reserved for the selected time.');
+                return;
+            }
+
+            const reservationCode = Math.floor(Math.random() * 1000000); // Generate a random reservation code
+            reservations.push({ room, startTime, endTime, course, section, year, reservationCode });
             localStorage.setItem('reservations', JSON.stringify(reservations));
-            document.getElementById('message').textContent = 'Room reserved successfully!';
-            document.getElementById('message').classList.remove('hidden');
 
-            // Clear fields after reservation
-            document.getElementById('select-room').value = '';
-            document.getElementById('start-time').value = '';
-            document.getElementById('end-time').value = '';
+            // Display the reservation message with the code
+            document.getElementById('reservation-message').textContent = `Reservation successful! Your code is: ${reservationCode}`;
+            document.getElementById('reservation-message').classList.remove('hidden');
         }
 
         function goHome() {
@@ -91,4 +86,3 @@
     </script>
 </body>
 </html>
-
