@@ -1,111 +1,39 @@
-/* styles.css */
-
-/* General Styles */
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4; /* Light gray background */
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
     margin: 0;
-    padding: 0;
 }
 
 .container {
-    max-width: 400px; /* Limit the width for a login page feel */
-    margin: 50px auto; /* Center the container */
+    background: #fff;
     padding: 20px;
-    background-color: white; /* White background for the form */
-    border-radius: 10px; /* Rounded corners */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 300px; /* Adjust as necessary */
+    text-align: center;
 }
 
 .logo {
-    display: block; /* Center the logo */
-    margin: 0 auto 20px; /* Add bottom margin */
-    max-width: 100px; /* Adjust logo size */
+    width: 80px; /* Smaller logo size */
 }
 
-/* Headings */
-h1 {
-    text-align: center; /* Center the heading */
-    color: #333; /* Dark gray color */
-}
-
-/* Current Date and Time */
-#current-date-time {
-    text-align: center; /* Center the date and time */
-    margin-bottom: 20px; /* Add margin below */
-    color: #777; /* Lighter gray for the date */
-}
-
-/* Buttons */
 button {
-    display: block; /* Stack buttons vertically */
-    background-color: deepskyblue; /* Button color */
-    color: white; /* Text color */
-    border: none; /* Remove border */
-    padding: 10px; /* Add padding */
-    margin: 10px 0; /* Add margin */
-    width: 100%; /* Full width */
-    border-radius: 5px; /* Rounded corners */
-    cursor: pointer; /* Change cursor on hover */
-    transition: background-color 0.3s; /* Smooth transition */
+    background-color: lightblue; /* Light blue button color */
+    border: none;
+    padding: 10px;
+    margin: 5px 0;
+    cursor: pointer;
+    width: 100%;
 }
 
 button:hover {
-    background-color: dodgerblue; /* Darker blue on hover */
+    opacity: 0.8; /* Slight opacity on hover */
 }
 
-/* Input Fields */
-input[type="text"],
-input[type="time"],
-select {
-    width: 100%; /* Full width */
-    padding: 10px; /* Add padding */
-    margin: 10px 0; /* Add margin */
-    border: 1px solid #ccc; /* Light gray border */
-    border-radius: 5px; /* Rounded corners */
-    box-sizing: border-box; /* Ensures padding doesn't increase total width */
-}
-
-input[type="text"]:focus,
-input[type="time"]:focus,
-select:focus {
-    border-color: deepskyblue; /* Focus border color */
-    outline: none; /* Remove default outline */
-}
-
-/* List Styles */
-ul {
-    list-style-type: none; /* Remove bullet points */
-    padding: 0; /* Remove padding */
-    text-align: left; /* Align text to the left */
-}
-
-li {
-    padding: 10px; /* Add padding */
-    border-bottom: 1px solid #eee; /* Bottom border for list items */
-}
-
-li:last-child {
-    border-bottom: none; /* Remove bottom border from the last item */
-}
-
-/* Responsive Styles */
-@media (max-width: 600px) {
-    .container {
-        width: 90%; /* Make the container responsive */
-    }
-
-    .logo {
-        max-width: 80px; /* Smaller logo for mobile */
-    }
-
-    button {
-        padding: 8px; /* Smaller padding for buttons */
-    }
-
-    input[type="text"],
-    input[type="time"],
-    select {
-        padding: 8px; /* Smaller input padding for mobile */
-    }
+.hidden {
+    display: none;
 }
