@@ -3,48 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Remove Reservation</title>
+    <title>View Reservations</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
-        <img src="logo.png" alt="Logo" class="logo"> <!-- Replace with your logo image -->
-        <h1>Remove a Reservation</h1>
-        <p id="current-date-time"></p>
-
-        <input type="text" id="reservation-code" placeholder="Enter Reservation Code" required>
-        <button onclick="removeReservation()">Remove Reservation</button>
-        <p id="remove-message" class="hidden"></p>
-
+        <h1>Reserved Rooms</h1>
+        <ul id="reservation-list"></ul>
         <button onclick="goHome()">Go Back</button>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const now = new Date();
-            document.getElementById('current-date-time').textContent = now.toLocaleString();
+            displayReservations();
         });
 
-        function removeReservation() {
-            const reservationCode = document.getElementById('reservation-code').value.trim();
+        function displayReservations() {
+            const reservationList = document.getElementById('reservation-list');
             const reservations = JSON.parse(localStorage.getItem('reservations')) || [];
-            const reservationIndex = reservations.findIndex(reservation => reservation.reservationCode == reservationCode);
 
-            if (reservationIndex === -1) {
-                document.getElementById('remove-message').textContent = 'Invalid reservation code.';
-                document.getElementById('remove-message').classList.remove('hidden');
-                return;
-            }
+            // Check if admin is logged in
+            const isAdmin = localStorage.getItem('isAdmin');
 
-            reservations.splice(reservationIndex, 1);
-            localStorage.setItem('reservations', JSON.stringify(reservations));
+            reservations.forEach((reservation, index) => {
+                const listItem = document.createElement('li');
+                listItem.textContent = `Room: ${reservation.room}, Start: ${reservation.startTime}, End: ${reservation.endTime}, Course: ${reservation.course}, Section: ${reservation.section}`;
 
-            document.getElementById('remove-message').textContent = 'Reservation removed successfully.';
-            document.getElementById('remove-message').classList.remove('hidden');
+                if (isAdmin === 'true') {
+                    // Only show remove button for admin
+                    const removeButton = document.createElement('button');
+                    removeButton.textContent = 'Remove';
+                    removeButton.onclick = () => removeReservation(index);
+                    listItem.appendChild(removeButton);
+                }
+
+                reservationList.appendChild(listItem);
+            });
+        }
+
+        function removeReservation(index) {
+            const reservations = JSON.parse(localStorage.getItem('reservations')) || [];
+            reservations.splice(index, 1);  // Remove the reservation
+            localStorage.setItem('reservations', JSON.stringify(reservations));  // Update localStorage
+            alert('Reservation removed successfully!');
+            window.location.reload();  // Reload the page to refresh the reservation list
         }
 
         function goHome() {
-            window.location.href = 'index.html'; // Change this to your homepage if it's named differently
+            window.location.href = 'index.html';  // Redirect to the homepage
         }
     </script>
 </body>
