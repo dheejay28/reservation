@@ -12,13 +12,13 @@
         <h1>Reserve a Room</h1>
         <p id="current-date-time"></p>
 
-        <select id="room-select">
+        <select id="room-select" required>
             <option value="">Select Room</option>
         </select>
         <input type="time" id="start-time" required>
         <input type="time" id="end-time" required>
         <input type="text" id="course" placeholder="Course" required>
-        <input type="text" id="section" placeholder="Section" required>
+        <input type="text" id="year" placeholder="Year" required>
         <button onclick="reserveRoom()">Reserve Room</button>
         <p id="reservation-message" class="hidden"></p>
 
@@ -50,9 +50,9 @@
             const startTime = document.getElementById('start-time').value;
             const endTime = document.getElementById('end-time').value;
             const course = document.getElementById('course').value;
-            const section = document.getElementById('section').value;
+            const year = document.getElementById('year').value;
 
-            if (!room || !startTime || !endTime || !course || !section) {
+            if (!room || !startTime || !endTime || !course || !year) {
                 alert('Please fill in all fields.');
                 return;
             }
@@ -70,7 +70,7 @@
             }
 
             const reservationCode = Math.floor(Math.random() * 1000000); // Generate a random reservation code
-            reservations.push({ room, startTime, endTime, course, section, reservationCode });
+            reservations.push({ room, startTime, endTime, course, year, reservationCode });
             localStorage.setItem('reservations', JSON.stringify(reservations));
 
             document.getElementById('reservation-message').textContent = `Reservation successful! Your code is: ${reservationCode}`;
