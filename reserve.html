@@ -5,6 +5,51 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reserve Room</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column; /* Align elements vertically */
+        }
+
+        .logo {
+            width: 50%; /* Set the logo to 50% of the container width */
+            height: auto; /* Maintain aspect ratio */
+            margin: 0 auto; /* Center the logo */
+        }
+
+        select,
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px; /* Increase font size for better readability */
+        }
+
+        button {
+            padding: 10px;
+            margin-top: 10px;
+            background-color: lightblue; /* Light blue background */
+            color: black; /* Black text color */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%; /* Full width for buttons */
+            font-size: 16px; /* Increase font size for better readability */
+        }
+
+        button:hover {
+            background-color: #5BC0DE; /* Darker shade of light blue on hover */
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -46,16 +91,14 @@
             const roomSelect = document.getElementById('room-select');
             const rooms = JSON.parse(localStorage.getItem('rooms')) || [];
 
-            // Check if rooms are available
             if (rooms.length === 0) {
                 const noRoomsOption = document.createElement('option');
                 noRoomsOption.value = '';
-                noRoomsOption.textContent = 'No rooms available'; // Indicate no rooms
+                noRoomsOption.textContent = 'No rooms available';
                 roomSelect.appendChild(noRoomsOption);
                 return;
             }
 
-            // Populate room options
             rooms.forEach(room => {
                 const option = document.createElement('option');
                 option.value = room;
@@ -89,7 +132,7 @@
                 return;
             }
 
-            const reservationCode = Math.floor(Math.random() * 1000000); // Generate a random reservation code
+            const reservationCode = Math.floor(Math.random() * 1000000);
             reservations.push({ room, startTime, endTime, course, year, reservationCode });
             localStorage.setItem('reservations', JSON.stringify(reservations));
 
