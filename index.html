@@ -1,51 +1,30 @@
-body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    height: 100vh;
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4; /* Adjust background color as needed */
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Room Reservation System</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <img src="logo.png" alt="Logo" class="logo"> <!-- Replace with your logo image -->
+        <h1>Room Reservation System</h1>
+        <p id="current-date-time"></p> <!-- This will display the current date and time -->
 
-.container {
-    text-align: center;
-    padding: 20px;
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
+        <div class="button-container">
+            <button onclick="window.location.href='reserve.html'">Reserve Room</button>
+            <button onclick="window.location.href='view-reservations.html'">View Reservations</button>
+            <button onclick="window.location.href='return-room.html'">Return Room</button>
+            <button id="login-button" onclick="window.location.href='login.html'">Log In</button>
+        </div>
+    </div>
 
-.logo {
-    width: 100px; /* Adjust size as needed */
-    margin-bottom: 20px;
-}
-
-h1 {
-    margin-bottom: 20px;
-}
-
-#current-date-time {
-    margin-bottom: 20px;
-    font-weight: bold; /* Make the date and time bold */
-}
-
-button {
-    width: 200px; /* Set button width */
-    padding: 10px;
-    margin: 5px 0; /* Margin between buttons */
-    background-color: lightblue; /* Button color */
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-}
-
-button:hover {
-    background-color: #87CEEB; /* Darker blue on hover */
-}
-
-.hidden {
-    display: none;
-}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const now = new Date();
+            document.getElementById('current-date-time').textContent = now.toLocaleString();
+        });
+    </script>
+</body>
+</html>
