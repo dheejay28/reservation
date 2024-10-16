@@ -36,6 +36,8 @@
                 // Check if admin is logged in
                 const isAdmin = localStorage.getItem('isAdmin') === 'true';
                 if (isAdmin) {
+                    // Show reservation code and remove button for admin
+                    li.textContent += `, Reservation Code: ${reservation.reservationCode}`;
                     const removeButton = document.createElement('button');
                     removeButton.textContent = 'Remove';
                     removeButton.onclick = function() { removeReservation(reservation.reservationCode); };
