@@ -90,7 +90,6 @@
         function populateRoomSelect() {
             const roomSelect = document.getElementById('room-select');
             const rooms = JSON.parse(localStorage.getItem('rooms')) || [];
-
             rooms.forEach(room => {
                 const option = document.createElement('option');
                 option.value = room;
@@ -127,9 +126,6 @@
             const reservationCode = Math.floor(Math.random() * 1000000);
             reservations.push({ room, startTime, endTime, course, year, reservationCode });
             localStorage.setItem('reservations', JSON.stringify(reservations));
-
-            document.getElementById('reservation-message').textContent = `Reservation successful! Your code is: ${reservationCode}`;
-            document.getElementById('reservation-message').classList.remove('hidden');
 
             // Optional: Redirect to Reserved Rooms page to see the update
             window.location.href = 'reserved-rooms.html';
