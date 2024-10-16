@@ -1,45 +1,57 @@
-<ul id="reservation-list"></ul>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Reservations</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <img src="logo.png" alt="Logo" class="logo"> <!-- Replace with your logo image -->
+        <h1>View Reservations</h1>
+        <p id="current-date-time"></p>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const now = new Date();
-        document.getElementById('current-date-time').textContent = now.toLocaleString();
-        displayReservations();
-    });
+        <ul id="reservation-list"></ul>
 
-    function displayReservations() {
-        const reservations = JSON.parse(localStorage.getItem('reservations')) || [];
-        const reservationList = document.getElementById('reservation-list');
-        reservationList.innerHTML = '';
+        <button onclick="goHome()">Go Back</button>
+    </div>
 
-        reservations.forEach((reservation) => {
-            const li = document.createElement('li');
-            li.textContent = `Room: ${reservation.room}, Start Time: ${reservation.startTime}, End Time: ${reservation.endTime}, Course: ${reservation.course}, Section: ${reservation.section}, Year: ${reservation.year}`;
-
-            // Check if admin is logged in
-            const isAdmin = localStorage.getItem('isAdmin') === 'true';
-            if (isAdmin) {
-                li.textContent += `, Reservation Code: ${reservation.reservationCode}`;
-                const removeButton = document.createElement('button');
-                removeButton.textContent = 'Remove';
-                removeButton.onclick = function() { removeReservation(reservation.reservationCode); };
-                li.appendChild(removeButton);
-            }
-
-            reservationList.appendChild(li);
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const now = new Date();
+            document.getElementById('current-date-time').textContent = now.toLocaleString();
+            displayReservations();
         });
 
-        if (reservations.length === 0) {
-            const li = document.createElement('li');
-            li.textContent = 'No reservations found.';
-            reservationList.appendChild(li);
+        function displayReservations() {
+            const reservations = JSON.parse(localStorage.getItem('reservations')) || [];
+            const reservationList = document.getElementById('reservation-list');
+            reservationList.innerHTML = '';
+
+            if (reservations.length === 0) {
+                const li = document.createElement('li');
+                li.textContent = 'No reservations found.';
+                reservationList.appendChild(li);
+            } else {
+                reservations.forEach(reservation => {
+                    const li = document.createElement('li');
+                    li.textContent = `Room: ${reservation.room}, Start Time: ${formatTime(reservation.startTime)}, End Time: ${formatTime(reservation.endTime)}, Course: ${reservation.course}, Section: ${reservation.section}, Year: ${reservation.year}, Reservation Code: ${reservation.reservationCode}`;
+                    reservationList.appendChild(li);
+                });
+            }
         }
-    }
-    
-    function removeReservation(code) {
-        let reservations = JSON.parse(localStorage.getItem('reservations')) || [];
-        reservations = reservations.filter(reservation => reservation.reservationCode !== code);
-        localStorage.setItem('reservations', JSON.stringify(reservations)); // Update local storage
-        displayReservations(); // Refresh displayed reservations
-    }
-</script>
+
+        function formatTime(time) {
+            const [hours, minutes] = time.split(':');
+            const suffix = hours >= 12 ? 'PM' : 'AM';
+            const formattedHours = ((hours % 12) || 12); // Convert to 12-hour format
+            return `${formattedHours}:${minutes} ${suffix}`;
+        }
+
+        function goHome() {
+            window.location.href = 'index.html'; // Change this to your homepage if it's named differently
+        }
+    </script>
+</body>
+</html>
