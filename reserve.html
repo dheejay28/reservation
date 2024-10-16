@@ -12,7 +12,10 @@
         <h1>Reserve Room</h1>
         <p id="current-date-time"></p>
 
-        <select id="room-select"></select> <!-- Room options will be populated here -->
+        <select id="room-select">
+            <option value="">Select Room</option>
+            <!-- The admin should add rooms here dynamically -->
+        </select>
 
         <input type="time" id="start-time" placeholder="Start Time">
         <input type="time" id="end-time" placeholder="End Time">
@@ -30,26 +33,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             const now = new Date();
             document.getElementById('current-date-time').textContent = now.toLocaleString();
-            populateRoomSelect(); // Populate the room select options
         });
-
-        function populateRoomSelect() {
-            const roomSelect = document.getElementById('room-select');
-            const rooms = JSON.parse(localStorage.getItem('rooms')) || [];
-
-            if (rooms.length === 0) {
-                const option = document.createElement('option');
-                option.textContent = 'No rooms available. Please add rooms as an admin.';
-                roomSelect.appendChild(option);
-            } else {
-                rooms.forEach(room => {
-                    const option = document.createElement('option');
-                    option.value = room;
-                    option.textContent = `Room ${room}`;
-                    roomSelect.appendChild(option);
-                });
-            }
-        }
 
         function reserveRoom() {
             const roomSelect = document.getElementById('room-select');
