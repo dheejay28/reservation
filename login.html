@@ -10,6 +10,7 @@
     <div class="login-container">
         <img src="logo.png" alt="Logo" class="logo">
         <h1>Admin Login</h1>
+        <p id="current-date-time"></p>
         <form id="login-form">
             <input type="text" id="username" placeholder="Username" required>
             <input type="password" id="password" placeholder="Password" required>
@@ -19,6 +20,12 @@
     </div>
 
     <script>
+        // Display current date and time
+        document.addEventListener('DOMContentLoaded', function() {
+            const now = new Date();
+            document.getElementById('current-date-time').textContent = now.toLocaleString();
+        });
+
         document.getElementById('login-form').addEventListener('submit', function(event) {
             event.preventDefault();
             const username = document.getElementById('username').value;
