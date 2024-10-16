@@ -19,8 +19,6 @@
 
         <!-- Log In and Log Out buttons -->
         <button id="login-button" onclick="login()">Log In</button>
-        <button id="logout-button" class="hidden" onclick="logout()">Log Out</button>
-
         <p id="message" class="hidden"></p>
     </div>
 
@@ -33,7 +31,7 @@
 
         function checkAdminStatus() {
             const isAdmin = localStorage.getItem('isAdmin');
-            if (isAdmin) {
+            if (isAdmin === 'true') {
                 document.getElementById('login-button').classList.add('hidden');  // Hide Log In button
                 document.getElementById('logout-button').classList.remove('hidden'); // Show Log Out button
             } else {
