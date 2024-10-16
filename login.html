@@ -12,8 +12,8 @@
         <h1>Admin Login</h1>
         <p id="current-date-time"></p>
 
-        <input type="text" placeholder="Username" required>
-        <input type="password" placeholder="Password" required>
+        <input type="text" id="username" placeholder="Username" required>
+        <input type="password" id="password" placeholder="Password" required>
         <button onclick="login()">Log In</button>
     </div>
 
@@ -24,8 +24,20 @@
         });
 
         function login() {
-            // Add login functionality here
-            alert("Logging in..."); // Placeholder for actual login functionality
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            // Placeholder for admin credentials. You should secure this properly.
+            const adminUsername = 'iamtheadmin'; // Replace with your actual admin username
+            const adminPassword = 'Dj*0100010001001010'; // Replace with your actual admin password
+
+            // Simple validation to check if credentials match
+            if (username === adminUsername && password === adminPassword) {
+                // Redirect to admin page upon successful login
+                window.location.href = 'admin.html';
+            } else {
+                alert('Invalid username or password. Please try again.');
+            }
         }
     </script>
 </body>
