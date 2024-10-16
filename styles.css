@@ -21,6 +21,11 @@ body {
     display: block;
     margin: 0 auto 20px auto;
 }
+.centered-date-time {
+    text-align: center; /* Centers the text */
+    font-size: 16px; /* Adjust the font size as needed */
+    margin: 10px 0; /* Adds some spacing above and below */
+}
 
 h1 {
     text-align: center;
