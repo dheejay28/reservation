@@ -1,0 +1,57 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100vh;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4; /* Adjust background color as needed */
+}
+
+.container {
+    text-align: center;
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+    width: 100px; /* Adjust size as needed */
+    margin-bottom: 20px;
+}
+
+h1 {
+    margin-bottom: 20px;
+}
+
+#current-date-time {
+    margin-bottom: 20px;
+    font-weight: bold; /* Make the date and time bold */
+}
+
+input {
+    margin-bottom: 10px;
+    padding: 10px;
+    width: 200px; /* Set input width */
+}
+
+button {
+    width: 200px; /* Set button width */
+    padding: 10px;
+    margin: 5px 0; /* Margin between buttons */
+    background-color: lightblue; /* Button color */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #87CEEB; /* Darker blue on hover */
+}
+
+.hidden {
+    display: none;
+}
