@@ -8,26 +8,27 @@
 </head>
 <body>
     <div class="container">
+        <img src="logo.png" alt="Logo" class="logo"> <!-- Replace with your logo image -->
         <h1>Admin Dashboard</h1>
+        <p id="current-date-time"></p>
+
         <button onclick="window.location.href='reserve.html'">Reserve Room</button>
         <button onclick="window.location.href='view-reservations.html'">View Reservations</button>
         <button onclick="window.location.href='return-room.html'">Return Room</button>
         <button onclick="window.location.href='add-room.html'">Add Room</button>
         <button onclick="logout()">Log Out</button>
-    </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const isAdmin = localStorage.getItem('isAdmin');
-            if (!isAdmin) {
-                window.location.href = 'index.html';  // Redirect to index if not logged in
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const now = new Date();
+                document.getElementById('current-date-time').textContent = now.toLocaleString();
+            });
+
+            function logout() {
+                localStorage.removeItem('isAdmin');
+                window.location.href = 'index.html'; // Redirect to index page after logout
             }
-        });
-
-        function logout() {
-            localStorage.removeItem('isAdmin');  // Remove admin status
-            window.location.href = 'index.html';  // Redirect to index page after logging out
-        }
-    </script>
+        </script>
+    </div>
 </body>
 </html>
