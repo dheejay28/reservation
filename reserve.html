@@ -8,19 +8,18 @@
 </head>
 <body>
     <div class="container">
-        <img src="logo.png" alt="Logo" class="logo"> <!-- Replace with your logo image -->
-        <h1>Reserve a Room</h1>
-        <p id="current-date-time" class="centered-date-time"></p>
+        <img src="logo.png" alt="Logo" class="logo">
+        <h1>Reserve Room</h1>
+        <p id="current-date-time"></p>
 
-        <select id="room-select" required>
-            <option value="">Select Room</option>
-            <!-- Room options will be populated dynamically -->
-        </select>
-        <input type="time" id="start-time" required>
-        <input type="time" id="end-time" required>
-        <input type="text" id="course" placeholder="Course" required>
-        <input type="text" id="section" placeholder="Section" required>
-        <input type="text" id="year" placeholder="Year" required>
+        <select id="room-select"></select> <!-- Room options will be populated here -->
+
+        <input type="time" id="start-time" placeholder="Start Time">
+        <input type="time" id="end-time" placeholder="End Time">
+        <input type="text" id="course" placeholder="Course">
+        <input type="text" id="section" placeholder="Section">
+        <input type="text" id="year" placeholder="Year">
+
         <button onclick="reserveRoom()">Reserve Room</button>
         <p id="reservation-message" class="hidden"></p>
 
@@ -31,19 +30,25 @@
         document.addEventListener('DOMContentLoaded', function() {
             const now = new Date();
             document.getElementById('current-date-time').textContent = now.toLocaleString();
-            populateRoomSelect();
+            populateRoomSelect(); // Populate the room select options
         });
 
         function populateRoomSelect() {
             const roomSelect = document.getElementById('room-select');
-            const rooms = JSON.parse(localStorage.getItem('rooms')) || []; // Assuming rooms are stored in local storage
+            const rooms = JSON.parse(localStorage.getItem('rooms')) || [];
 
-            rooms.forEach(room => {
+            if (rooms.length === 0) {
                 const option = document.createElement('option');
-                option.value = room;
-                option.textContent = room;
+                option.textContent = 'No rooms available. Please add rooms as an admin.';
                 roomSelect.appendChild(option);
-            });
+            } else {
+                rooms.forEach(room => {
+                    const option = document.createElement('option');
+                    option.value = room;
+                    option.textContent = `Room ${room}`;
+                    roomSelect.appendChild(option);
+                });
+            }
         }
 
         function reserveRoom() {
@@ -77,13 +82,12 @@
             localStorage.setItem('reservations', JSON.stringify(reservations));
 
             // Display the reservation message with the code
-            document.getElementById('reservation-message').textContent = 
-                `Reservation successful! Your code is: ${reservationCode}. Use this code to return the room.`;
+            document.getElementById('reservation-message').textContent = `Reservation successful! Your code is: ${reservationCode}`;
             document.getElementById('reservation-message').classList.remove('hidden');
         }
 
         function goHome() {
-            window.location.href = 'index.html'; // Change this to your homepage if it's named differently
+            window.location.href = 'index.html';
         }
     </script>
 </body>
