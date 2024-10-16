@@ -15,38 +15,13 @@
         <button onclick="window.location.href='reserve.html'">Reserve Room</button>
         <button onclick="window.location.href='view-reservations.html'">View Reservations</button>
         <button onclick="window.location.href='return-room.html'">Return Room</button>
-        <button id="login-button" onclick="window.location.href='login.html'">Log In</button>
-        <button id="admin-dashboard" class="hidden" onclick="window.location.href='admin.html'">Admin Dashboard</button>
-        <button id="logout-button" class="hidden" onclick="logout()">Log Out</button>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const now = new Date();
+                document.getElementById('current-date-time').textContent = now.toLocaleString();
+            });
+        </script>
     </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const now = new Date();
-            document.getElementById('current-date-time').textContent = now.toLocaleString();
-            checkAdminStatus();
-        });
-
-        function checkAdminStatus() {
-            const isAdmin = localStorage.getItem('isAdmin');
-            if (isAdmin) {
-                // If admin is logged in, show dashboard and logout button, hide login button
-                document.getElementById('login-button').classList.add('hidden');
-                document.getElementById('logout-button').classList.remove('hidden');
-                document.getElementById('admin-dashboard').classList.remove('hidden');
-            } else {
-                // If admin is not logged in, show login button, hide logout and dashboard button
-                document.getElementById('login-button').classList.remove('hidden');
-                document.getElementById('logout-button').classList.add('hidden');
-                document.getElementById('admin-dashboard').classList.add('hidden');
-            }
-        }
-
-        function logout() {
-            localStorage.removeItem('isAdmin');
-            checkAdminStatus();
-            window.location.href = 'index.html';  // Redirect to index page after logout
-        }
-    </script>
 </body>
 </html>
