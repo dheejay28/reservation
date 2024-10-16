@@ -12,13 +12,10 @@
         <h1>Room Reservation System</h1>
         <p id="current-date-time"></p>
 
-        <div class="button-container">
-            <button onclick="window.location.href='reserve.html'">Reserve Room</button>
-            <button onclick="window.location.href='view-reservations.html'">View Reservations</button>
-            <button onclick="window.location.href='return-room.html'">Return Room</button>
-            <button id="logout-button" class="hidden" onclick="logout()">Log Out</button>
-            <button id="add-room-button" class="hidden" onclick="window.location.href='add-room.html'">Add Room</button>
-        </div>
+        <button onclick="window.location.href='reserve.html'">Reserve Room</button>
+        <button onclick="window.location.href='view-reservations.html'">View Reservations</button>
+        <button onclick="window.location.href='return-room.html'">Return Room</button>
+        <button onclick="window.location.href='admin.html'" id="admin-button" class="hidden">Admin Dashboard</button>
 
         <p id="message" class="hidden"></p>
     </div>
@@ -33,21 +30,8 @@
         function checkAdminStatus() {
             const isAdmin = localStorage.getItem('isAdmin');
             if (isAdmin) {
-                // Show the logout button and the add room button
-                document.getElementById('logout-button').classList.remove('hidden');
-                document.getElementById('add-room-button').classList.remove('hidden');
-            } else {
-                // Hide the logout button and the add room button
-                document.getElementById('logout-button').classList.add('hidden');
-                document.getElementById('add-room-button').classList.add('hidden');
+                document.getElementById('admin-button').classList.remove('hidden');
             }
-        }
-
-        function logout() {
-            localStorage.removeItem('isAdmin'); // Remove admin status from local storage
-            checkAdminStatus(); // Update the UI
-            alert("You have successfully logged out."); // Notify the user
-            window.location.href = 'login.html'; // Redirect to login page
         }
     </script>
 </body>
