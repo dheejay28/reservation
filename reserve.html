@@ -5,81 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reserve Room</title>
     <link rel="stylesheet" href="styles.css">
-    <style>
-        .container {
-            max-width: 600px;
-            margin: auto;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .logo {
-            width: 50%;
-            height: auto;
-            margin: 0 auto;
-        }
-
-        select,
-        input {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 16px;
-        }
-
-        button {
-            padding: 10px;
-            margin-top: 10px;
-            background-color: lightblue;
-            color: black;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            width: 100%;
-            font-size: 16px;
-        }
-
-        button:hover {
-            background-color: #5BC0DE;
-        }
-
-        .hidden {
-            display: none;
-        }
-    </style>
 </head>
 <body>
     <div class="container">
-        <img src="logo.png" alt="Logo" class="logo">
-        <h1>Reserve a Room</h1>
-        <p id="current-date-time"></p>
-
-        <label for="room-select">Select Room:</label>
-        <select id="room-select" required>
-            <option value="">Select Room</option>
-        </select>
-
-        <label for="start-time">Start Time:</label>
-        <input type="time" id="start-time" required>
-
-        <label for="end-time">End Time:</label>
-        <input type="time" id="end-time" required>
-
-        <label for="course">Course:</label>
-        <input type="text" id="course" placeholder="Course" required>
-
-        <label for="year">Year:</label>
-        <input type="text" id="year" placeholder="Year" required>
-
-        <button onclick="reserveRoom()">Reserve Room</button>
-        <p id="reservation-message" class="hidden"></p>
-
-        <button onclick="goHome()">Go Back</button>
-    </div>
-  <div class="container">
         <h1>Reserve a Room</h1>
         <select id="room-select">
             <option value="">Select Room</option>
@@ -122,60 +50,6 @@
                 document.getElementById('reservation-message').classList.remove('hidden');
             })
             .catch(error => console.error('Error:', error));
-        }
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const now = new Date();
-            document.getElementById('current-date-time').textContent = now.toLocaleString();
-            populateRoomSelect();
-        });
-
-        function populateRoomSelect() {
-            const roomSelect = document.getElementById('room-select');
-            const rooms = JSON.parse(localStorage.getItem('rooms')) || [];
-            rooms.forEach(room => {
-                const option = document.createElement('option');
-                option.value = room;
-                option.textContent = room;
-                roomSelect.appendChild(option);
-            });
-        }
-
-        function reserveRoom() {
-            const roomSelect = document.getElementById('room-select');
-            const room = roomSelect.value;
-            const startTime = document.getElementById('start-time').value;
-            const endTime = document.getElementById('end-time').value;
-            const course = document.getElementById('course').value;
-            const year = document.getElementById('year').value;
-
-            if (!room || !startTime || !endTime || !course || !year) {
-                alert('Please fill in all fields.');
-                return;
-            }
-
-            const reservations = JSON.parse(localStorage.getItem('reservations')) || [];
-            const overlapping = reservations.some(reservation => 
-                reservation.room === room && 
-                ((startTime >= reservation.startTime && startTime < reservation.endTime) || 
-                (endTime > reservation.startTime && endTime <= reservation.endTime))
-            );
-
-            if (overlapping) {
-                alert('This room is already reserved for the selected time.');
-                return;
-            }
-
-            const reservationCode = Math.floor(Math.random() * 1000000);
-            reservations.push({ room, startTime, endTime, course, year, reservationCode });
-            localStorage.setItem('reservations', JSON.stringify(reservations));
-
-            // Optional: Redirect to Reserved Rooms page to see the update
-            window.location.href = 'reserved-rooms.html';
-        }
-
-        function goHome() {
-            window.location.href = 'index.html'; // Change this to your homepage if it's named differently
         }
     </script>
 </body>
