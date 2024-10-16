@@ -15,7 +15,13 @@
         <button onclick="window.location.href='reserve.html'">Reserve Room</button>
         <button onclick="window.location.href='view-reservations.html'">View Reservations</button>
         <button onclick="window.location.href='return-room.html'">Return Room</button>
-        <button onclick="window.location.href='admin.html'" id="admin-button" class="hidden">Admin Dashboard</button>
+
+        <!-- Admin dashboard button, will only show if admin is logged in -->
+        <button id="admin-button" class="hidden" onclick="window.location.href='admin.html'">Admin Dashboard</button>
+
+        <!-- Log In and Log Out buttons -->
+        <button id="login-button" onclick="login()">Log In</button>
+        <button id="logout-button" class="hidden" onclick="logout()">Log Out</button>
 
         <p id="message" class="hidden"></p>
     </div>
@@ -24,14 +30,42 @@
         document.addEventListener('DOMContentLoaded', function() {
             const now = new Date();
             document.getElementById('current-date-time').textContent = now.toLocaleString();
-            checkAdminStatus();
+            checkAdminStatus(); // Check if admin is logged in on page load
         });
 
         function checkAdminStatus() {
             const isAdmin = localStorage.getItem('isAdmin');
             if (isAdmin) {
-                document.getElementById('admin-button').classList.remove('hidden');
+                document.getElementById('admin-button').classList.remove('hidden'); // Show Admin Dashboard
+                document.getElementById('login-button').classList.add('hidden');  // Hide Log In button
+                document.getElementById('logout-button').classList.remove('hidden'); // Show Log Out button
+            } else {
+                document.getElementById('admin-button').classList.add('hidden'); // Hide Admin Dashboard
+                document.getElementById('login-button').classList.remove('hidden');  // Show Log In button
+                document.getElementById('logout-button').classList.add('hidden');  // Hide Log Out button
             }
+        }
+
+        // Log In function (for admin)
+        function login() {
+            const username = prompt("Enter admin username:");
+            const password = prompt("Enter admin password:");
+
+            // Simple authentication check
+            if (username === 'iamtheadmin' && password === 'Dj*0100010001001010') {
+                localStorage.setItem('isAdmin', 'true'); // Set admin status in localStorage
+                alert("Admin logged in successfully!");
+                checkAdminStatus(); // Update the button visibility
+            } else {
+                alert("Invalid credentials.");
+            }
+        }
+
+        // Log Out function (for admin)
+        function logout() {
+            localStorage.removeItem('isAdmin'); // Remove admin status from localStorage
+            alert("Admin logged out successfully!");
+            checkAdminStatus(); // Update the button visibility
         }
     </script>
 </body>
