@@ -12,18 +12,33 @@
         <h1>Reserve Room</h1>
 
         <form id="reservation-form">
-            <select id="room-select" required>
-                <option value="">Select Room</option>
-                <option value="101">Room 101</option>
-                <option value="102">Room 102</option>
-                <option value="103">Room 103</option>
-                <!-- Add other rooms as needed -->
-            </select>
+            <div class="form-group">
+                <label for="room-select">Select Room:</label>
+                <select id="room-select" required>
+                    <option value="">Select Room</option>
+                    <!-- Room options will be populated here -->
+                </select>
+            </div>
 
-            <input type="text" id="year" placeholder="Enter Year" required>
-            <input type="text" id="section" placeholder="Enter Section" required>
-            <input type="time" id="start-time" required>
-            <input type="time" id="end-time" required>
+            <div class="form-group">
+                <label for="year">Year:</label>
+                <input type="text" id="year" placeholder="Enter Year" required>
+            </div>
+
+            <div class="form-group">
+                <label for="section">Section:</label>
+                <input type="text" id="section" placeholder="Enter Section" required>
+            </div>
+
+            <div class="form-group">
+                <label for="start-time">Start Time:</label>
+                <input type="time" id="start-time" required>
+            </div>
+
+            <div class="form-group">
+                <label for="end-time">End Time:</label>
+                <input type="time" id="end-time" required>
+            </div>
 
             <button type="submit">Reserve</button>
         </form>
@@ -32,33 +47,50 @@
     </div>
 
     <script>
-        document.getElementById('reservation-form').addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent the form from submitting
+        // Function to populate room options
+        function populateRoomOptions() {
+            const roomSelect = document.getElementById('room-select');
+            const rooms = JSON.parse(localStorage.getItem('rooms')) || []; // Retrieve rooms from local storage
 
-            const room = document.getElementById('room-select').value;
-            const year = document.getElementById('year').value;
-            const section = document.getElementById('section').value;
-            const startTime = document.getElementById('start-time').value;
-            const endTime = document.getElementById('end-time').value;
+            rooms.forEach((room) => {
+                const option = document.createElement('option');
+                option.value = room;
+                option.textContent = `Room ${room}`;
+                roomSelect.appendChild(option);
+            });
+        }
 
-            // Create reservation object
-            const reservation = {
-                room,
-                year,
-                section,
-                startTime,
-                endTime,
-                code: Date.now() // Unique code for each reservation
-            };
+        document.addEventListener('DOMContentLoaded', function() {
+            populateRoomOptions(); // Populate room options on page load
 
-            // Store reservation in local storage
-            let reservations = JSON.parse(localStorage.getItem('reservations')) || [];
-            reservations.push(reservation);
-            localStorage.setItem('reservations', JSON.stringify(reservations));
+            document.getElementById('reservation-form').addEventListener('submit', function(event) {
+                event.preventDefault(); // Prevent the form from submitting
 
-            // Show confirmation message
-            document.getElementById('message').textContent = 'Room reserved successfully!';
-            document.getElementById('reservation-form').reset();
+                const room = document.getElementById('room-select').value;
+                const year = document.getElementById('year').value;
+                const section = document.getElementById('section').value;
+                const startTime = document.getElementById('start-time').value;
+                const endTime = document.getElementById('end-time').value;
+
+                // Create reservation object
+                const reservation = {
+                    room,
+                    year,
+                    section,
+                    startTime,
+                    endTime,
+                    code: Date.now() // Unique code for each reservation
+                };
+
+                // Store reservation in local storage
+                let reservations = JSON.parse(localStorage.getItem('reservations')) || [];
+                reservations.push(reservation);
+                localStorage.setItem('reservations', JSON.stringify(reservations));
+
+                // Show confirmation message
+                document.getElementById('message').textContent = 'Room reserved successfully!';
+                document.getElementById('reservation-form').reset();
+            });
         });
     </script>
 </body>
