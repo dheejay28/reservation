@@ -48,7 +48,7 @@ input[type="text"], input[type="password"] {
 
 button {
     width: 100%; /* Full width of the container */
-    padding: 10px;
+    padding: 8px;
     background-color: lightblue; /* Button color */
     border: none;
     border-radius: 5px;
