@@ -38,6 +38,7 @@ h1 {
 
 /* Buttons */
 button {
+    display: block; /* Stack buttons vertically */
     background-color: deepskyblue; /* Button color */
     color: white; /* Text color */
     border: none; /* Remove border */
