@@ -81,12 +81,6 @@
     </div>
 
     <script>
-        // Initialize room data if it doesn't exist
-        const initialRooms = ["Room 101", "Room 102", "Room 103"];
-        if (!localStorage.getItem('rooms')) {
-            localStorage.setItem('rooms', JSON.stringify(initialRooms));
-        }
-
         document.addEventListener('DOMContentLoaded', function() {
             const now = new Date();
             document.getElementById('current-date-time').textContent = now.toLocaleString();
@@ -96,14 +90,6 @@
         function populateRoomSelect() {
             const roomSelect = document.getElementById('room-select');
             const rooms = JSON.parse(localStorage.getItem('rooms')) || [];
-
-            if (rooms.length === 0) {
-                const noRoomsOption = document.createElement('option');
-                noRoomsOption.value = '';
-                noRoomsOption.textContent = 'No rooms available';
-                roomSelect.appendChild(noRoomsOption);
-                return;
-            }
 
             rooms.forEach(room => {
                 const option = document.createElement('option');
@@ -144,6 +130,9 @@
 
             document.getElementById('reservation-message').textContent = `Reservation successful! Your code is: ${reservationCode}`;
             document.getElementById('reservation-message').classList.remove('hidden');
+
+            // Optional: Redirect to Reserved Rooms page to see the update
+            window.location.href = 'reserved-rooms.html';
         }
 
         function goHome() {
