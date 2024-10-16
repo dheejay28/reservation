@@ -11,13 +11,13 @@
             margin: auto;
             padding: 20px;
             display: flex;
-            flex-direction: column; /* Align elements vertically */
+            flex-direction: column;
         }
 
         .logo {
-            width: 50%; /* Set the logo to 50% of the container width */
-            height: auto; /* Maintain aspect ratio */
-            margin: 0 auto; /* Center the logo */
+            width: 50%;
+            height: auto;
+            margin: 0 auto;
         }
 
         select,
@@ -27,23 +27,23 @@
             margin: 10px 0;
             border: 1px solid #ccc;
             border-radius: 5px;
-            font-size: 16px; /* Increase font size for better readability */
+            font-size: 16px;
         }
 
         button {
             padding: 10px;
             margin-top: 10px;
-            background-color: lightblue; /* Light blue background */
-            color: black; /* Black text color */
+            background-color: lightblue;
+            color: black;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            width: 100%; /* Full width for buttons */
-            font-size: 16px; /* Increase font size for better readability */
+            width: 100%;
+            font-size: 16px;
         }
 
         button:hover {
-            background-color: #5BC0DE; /* Darker shade of light blue on hover */
+            background-color: #5BC0DE;
         }
 
         .hidden {
@@ -53,7 +53,7 @@
 </head>
 <body>
     <div class="container">
-        <img src="logo.png" alt="Logo" class="logo"> <!-- Replace with your logo image -->
+        <img src="logo.png" alt="Logo" class="logo">
         <h1>Reserve a Room</h1>
         <p id="current-date-time"></p>
 
@@ -81,6 +81,12 @@
     </div>
 
     <script>
+        // Initialize room data if it doesn't exist
+        const initialRooms = ["Room 101", "Room 102", "Room 103"];
+        if (!localStorage.getItem('rooms')) {
+            localStorage.setItem('rooms', JSON.stringify(initialRooms));
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
             const now = new Date();
             document.getElementById('current-date-time').textContent = now.toLocaleString();
