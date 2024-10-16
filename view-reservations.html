@@ -24,14 +24,23 @@
             displayReservations();
         });
 
+        function formatTime(timeString) {
+            const [hours, minutes] = timeString.split(':').map(Number);
+            const period = hours >= 12 ? 'PM' : 'AM';
+            const formattedHours = hours % 12 || 12; // Convert to 12-hour format
+            return `${formattedHours}:${minutes < 10 ? '0' : ''}${minutes} ${period}`;
+        }
+
         function displayReservations() {
             const reservations = JSON.parse(localStorage.getItem('reservations')) || [];
             const reservationList = document.getElementById('reservation-list');
             reservationList.innerHTML = '';
 
             reservations.forEach((reservation) => {
+                const startTimeFormatted = formatTime(reservation.startTime);
+                const endTimeFormatted = formatTime(reservation.endTime);
                 const li = document.createElement('li');
-                li.textContent = `Room: ${reservation.room}, Start Time: ${reservation.startTime}, End Time: ${reservation.endTime}, Year: ${reservation.year}, Course: ${reservation.course}`;
+                li.textContent = `Room: ${reservation.room}, Start Time: ${startTimeFormatted}, End Time: ${endTimeFormatted}, Year: ${reservation.year}, Course: ${reservation.course}`;
 
                 // Check if admin is logged in
                 const isAdmin = localStorage.getItem('isAdmin') === 'true';
