@@ -1,79 +1,45 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reserved Rooms</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    <div class="container">
-        <img src="logo.png" alt="Logo" class="logo"> <!-- Replace with your logo image -->
-        <h1>Reserved Rooms</h1>
-        <p id="current-date-time"></p>
+<ul id="reservation-list"></ul>
 
-        <ul id="reservation-list"></ul>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const now = new Date();
+        document.getElementById('current-date-time').textContent = now.toLocaleString();
+        displayReservations();
+    });
 
-        <button onclick="goHome()">Go Back</button>
-    </div>
+    function displayReservations() {
+        const reservations = JSON.parse(localStorage.getItem('reservations')) || [];
+        const reservationList = document.getElementById('reservation-list');
+        reservationList.innerHTML = '';
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const now = new Date();
-            document.getElementById('current-date-time').textContent = now.toLocaleString();
-            displayReservations();
+        reservations.forEach((reservation) => {
+            const li = document.createElement('li');
+            li.textContent = `Room: ${reservation.room}, Start Time: ${reservation.startTime}, End Time: ${reservation.endTime}, Course: ${reservation.course}, Section: ${reservation.section}, Year: ${reservation.year}`;
+
+            // Check if admin is logged in
+            const isAdmin = localStorage.getItem('isAdmin') === 'true';
+            if (isAdmin) {
+                li.textContent += `, Reservation Code: ${reservation.reservationCode}`;
+                const removeButton = document.createElement('button');
+                removeButton.textContent = 'Remove';
+                removeButton.onclick = function() { removeReservation(reservation.reservationCode); };
+                li.appendChild(removeButton);
+            }
+
+            reservationList.appendChild(li);
         });
 
-        function formatTime(timeString) {
-            const [hours, minutes] = timeString.split(':').map(Number);
-            const period = hours >= 12 ? 'PM' : 'AM';
-            const formattedHours = hours % 12 || 12; // Convert to 12-hour format
-            return `${formattedHours}:${minutes < 10 ? '0' : ''}${minutes} ${period}`;
+        if (reservations.length === 0) {
+            const li = document.createElement('li');
+            li.textContent = 'No reservations found.';
+            reservationList.appendChild(li);
         }
-
-        function displayReservations() {
-            const reservations = JSON.parse(localStorage.getItem('reservations')) || [];
-            const reservationList = document.getElementById('reservation-list');
-            reservationList.innerHTML = '';
-
-            reservations.forEach((reservation) => {
-                const startTimeFormatted = formatTime(reservation.startTime);
-                const endTimeFormatted = formatTime(reservation.endTime);
-                const li = document.createElement('li');
-                li.textContent = `Room: ${reservation.room}, Start Time: ${startTimeFormatted}, End Time: ${endTimeFormatted}, Year: ${reservation.year}, Course: ${reservation.course}`;
-
-                // Check if admin is logged in
-                const isAdmin = localStorage.getItem('isAdmin') === 'true';
-                if (isAdmin) {
-                    // Show reservation code and remove button for admin
-                    li.textContent += `, Reservation Code: ${reservation.reservationCode}`;
-                    const removeButton = document.createElement('button');
-                    removeButton.textContent = 'Remove';
-                    removeButton.onclick = function() { removeReservation(reservation.reservationCode); };
-                    li.appendChild(removeButton);
-                }
-
-                reservationList.appendChild(li);
-            });
-
-            if (reservations.length === 0) {
-                const li = document.createElement('li');
-                li.textContent = 'No reservations found.';
-                reservationList.appendChild(li);
-            }
-        }
-
-        function removeReservation(reservationCode) {
-            let reservations = JSON.parse(localStorage.getItem('reservations')) || [];
-            reservations = reservations.filter(reservation => reservation.reservationCode !== reservationCode);
-            localStorage.setItem('reservations', JSON.stringify(reservations)); // Update local storage
-            displayReservations(); // Refresh displayed reservations
-        }
-
-        function goHome() {
-            window.location.href = 'index.html'; // Change this to your homepage if it's named differently
-        }
-    </script>
-</body>
-</html>
-
+    }
+    
+    function removeReservation(code) {
+        let reservations = JSON.parse(localStorage.getItem('reservations')) || [];
+        reservations = reservations.filter(reservation => reservation.reservationCode !== code);
+        localStorage.setItem('reservations', JSON.stringify(reservations)); // Update local storage
+        displayReservations(); // Refresh displayed reservations
+    }
+</script>
