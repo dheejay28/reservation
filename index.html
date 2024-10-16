@@ -17,9 +17,6 @@
         <button onclick="window.location.href='view-reservations.html'">View Reservations</button>
         <button onclick="window.location.href='return-room.html'">Return Room</button>
 
-        <!-- Admin dashboard link (hidden if not logged in) -->
-        <button id="admin-button" class="hidden" onclick="window.location.href='admin.html'">Admin Dashboard</button>
-
         <!-- Log In and Log Out buttons -->
         <button id="login-button" onclick="login()">Log In</button>
         <button id="logout-button" class="hidden" onclick="logout()">Log Out</button>
@@ -37,11 +34,9 @@
         function checkAdminStatus() {
             const isAdmin = localStorage.getItem('isAdmin');
             if (isAdmin) {
-                document.getElementById('admin-button').classList.remove('hidden'); // Show Admin Dashboard
                 document.getElementById('login-button').classList.add('hidden');  // Hide Log In button
                 document.getElementById('logout-button').classList.remove('hidden'); // Show Log Out button
             } else {
-                document.getElementById('admin-button').classList.add('hidden'); // Hide Admin Dashboard
                 document.getElementById('login-button').classList.remove('hidden');  // Show Log In button
                 document.getElementById('logout-button').classList.add('hidden');  // Hide Log Out button
             }
