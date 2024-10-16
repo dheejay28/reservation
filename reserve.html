@@ -79,7 +79,50 @@
 
         <button onclick="goHome()">Go Back</button>
     </div>
+  <div class="container">
+        <h1>Reserve a Room</h1>
+        <select id="room-select">
+            <option value="">Select Room</option>
+            <option value="Room 101">Room 101</option>
+            <option value="Room 102">Room 102</option>
+            <option value="Room 103">Room 103</option>
+        </select>
+        <input type="time" id="start-time" required>
+        <input type="time" id="end-time" required>
+        <input type="text" id="course" placeholder="Course" required>
+        <input type="text" id="year" placeholder="Year" required>
+        <button onclick="reserveRoom()">Reserve Room</button>
+        <p id="reservation-message" class="hidden"></p>
+    </div>
 
+    <script>
+        function reserveRoom() {
+            const roomSelect = document.getElementById('room-select');
+            const room = roomSelect.value;
+            const startTime = document.getElementById('start-time').value;
+            const endTime = document.getElementById('end-time').value;
+            const course = document.getElementById('course').value;
+            const year = document.getElementById('year').value;
+
+            if (!room || !startTime || !endTime || !course || !year) {
+                alert('Please fill in all fields.');
+                return;
+            }
+
+            fetch('http://localhost:5000/api/reservations', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ room, startTime, endTime, course, year }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('reservation-message').textContent = `Reservation successful for ${data.room}.`;
+                document.getElementById('reservation-message').classList.remove('hidden');
+            })
+            .catch(error => console.error('Error:', error));
+        }
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const now = new Date();
